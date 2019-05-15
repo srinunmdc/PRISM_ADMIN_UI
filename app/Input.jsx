@@ -15,7 +15,7 @@ export default class Input extends Component{
               </div>
                   : null
           }
-        <div className="di sm search-box">
+        <div className="di sm search-box" style={{width: `${this.props.width}%`}}>
           <input type="text" id="adSearchValue" onPaste={this.onChangeSearch.bind(this)} onChange={(e)=>this.onChangeSearch(e)} className= "form-control sm pull-right" placeholder={this.props.textplaceHolder} />
         </div>
       </div>

@@ -51,14 +51,16 @@ export default class AdvancedSearch extends Component {
 		return(
 			<div className="row">
 				<div className="col-md-12 col-sm-12 col-xs-12">
-
+					<div className="col-md-3 col-sm-3 col-xs-12">
+						<label>Event Type</label>
+					</div>
 					<div className="col-md-3 col-sm-3 col-xs-12">
 						<label>Category</label>
 					</div>
 					<div className="col-md-3 col-sm-3 col-xs-12">
 						<label>Filter Message</label>
 					</div>
-					<div className="col-md-4 col-sm-4 col-xs-12">
+					<div className="col-md-3 col-sm-4 col-xs-12">
 						<label>Channels </label>
 					</div>
 				</div>
@@ -68,15 +70,25 @@ export default class AdvancedSearch extends Component {
 							onSelect={this.onCategoreySlected}
 							default={alertTypeStore.alertCategories.selected}
 							data={alertTypeStore.alertCategories.options}
+							width={100}
+						/>
+					</div>
+					<div className="col-md-3 col-sm-3 col-xs-12">
+						<DropDown
+							onSelect={this.onCategoreySlected}
+							default={alertTypeStore.alertCategories.selected}
+							data={alertTypeStore.alertCategories.options}
+							width={100}
 						/>
 					</div>
 					<div className="col-md-3 col-sm-3 col-xs-12">
 						<Input
 							textplaceHolder="Search"
 							onChange={this.searchStringSelected}
+							width={100}
 						/>
 					</div>
-					<div className="col-md-4 col-sm-4 col-xs-12">
+					<div className="col-md-3 col-sm-4 col-xs-12">
 						<label className="di-checkbox"><input className="sm" type="checkbox" checked={this.state.emailChecked} onChange={this.handleChangeChk}/><span
 							className="lbl sm">Email</span></label>
 
