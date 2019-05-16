@@ -1497,3 +1497,6 @@ body{
 .di-checkbox input[type=checkbox]+.lbl.sm::before{
 	margin-left: 0px;
 }
+.margin-15{
+	margin-right: 15px;
+}

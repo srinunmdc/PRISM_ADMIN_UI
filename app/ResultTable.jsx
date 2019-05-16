@@ -87,7 +87,7 @@ class ResultTable extends React.Component {
                                     onClick={(e) => this.expandAccordian(obj)}></span></td>
                             </tr>
                             {loaderStore.isLoading && collapseID === obj.alertTypeId ? 
-                                    <Loader /> : this.state.collapseID === obj.alertTypeId && <tr>
+                                    <td colSpan="6"><Loader /></td> : this.state.collapseID === obj.alertTypeId && <tr>
                             <td colSpan="6">
                             <div id={"accordion_" + obj.alertTypeId}
                                     className={this.state.collapseID === obj.alertTypeId ? "collapse in row data" : "collapse"}>

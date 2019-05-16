@@ -51,9 +51,9 @@ export default class AdvancedSearch extends Component {
 		return(
 			<div className="row">
 				<div className="col-md-12 col-sm-12 col-xs-12">
-					<div className="col-md-3 col-sm-3 col-xs-12">
+					{/* <div className="col-md-3 col-sm-3 col-xs-12">
 						<label className="heading-3 text-light">Event Type<span className="di-icon-help-outline help-icon" aria-hidden="true"></span></label>
-					</div>
+					</div> */}
 					<div className="col-md-3 col-sm-3 col-xs-12">
 						<label className="heading-3 text-light">Category<span className="di-icon-help-outline help-icon" aria-hidden="true"></span></label>
 					</div>
@@ -65,14 +65,14 @@ export default class AdvancedSearch extends Component {
 					</div>
 				</div>
 				<div className="col-md-12 col-sm-12 col-xs-12 align-vertically">
-					<div className="col-md-3 col-sm-3 col-xs-12">
+					{/* <div className="col-md-3 col-sm-3 col-xs-12">
 						<DropDown
 							onSelect={this.onCategoreySlected}
 							default={alertTypeStore.alertCategories.selected}
 							data={alertTypeStore.alertCategories.options}
 							width={100}
 						/>
-					</div>
+					</div> */}
 					<div className="col-md-3 col-sm-3 col-xs-12">
 						<DropDown
 							onSelect={this.onCategoreySlected}
@@ -88,15 +88,15 @@ export default class AdvancedSearch extends Component {
 							width={100}
 						/>
 					</div>
-					<div className="col-md-3 col-sm-3 col-xs-12 channels-flex">
-						<span className="di-checkbox"><input className="sm" type="checkbox" checked={this.state.emailChecked} onChange={this.handleChangeChk}/><span
+					<div className="col-md-3 col-sm-3 col-xs-12">
+						<span className="di-checkbox margin-15"><input className="sm" type="checkbox" checked={this.state.emailChecked} onChange={this.handleChangeChk}/><span
 							className="lbl sm">Email</span></span>
 						
 
-						<span className="di-checkbox"><input className="sm" type="checkbox" checked={this.state.smsChecked} onChange={this.handleChangeChk}/><span
+						<span className="di-checkbox margin-15"><input className="sm" type="checkbox" checked={this.state.smsChecked} onChange={this.handleChangeChk}/><span
 							className="lbl sm">Text</span></span>
 
-						<span className="di-checkbox"><input className="sm" type="checkbox" checked={this.state.pushChecked} onChange={this.handleChangeChk}/><span
+						<span className="di-checkbox margin-15"><input className="sm" type="checkbox" checked={this.state.pushChecked} onChange={this.handleChangeChk}/><span
 							className="lbl sm">Push</span></span>
 					</div>
 
