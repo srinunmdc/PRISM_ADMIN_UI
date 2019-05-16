@@ -52,19 +52,19 @@ export default class AdvancedSearch extends Component {
 			<div className="row">
 				<div className="col-md-12 col-sm-12 col-xs-12">
 					<div className="col-md-3 col-sm-3 col-xs-12">
-						<label>Event Type</label>
+						<label className="heading-3 text-light">Event Type<span className="di-icon-help-outline help-icon" aria-hidden="true"></span></label>
 					</div>
 					<div className="col-md-3 col-sm-3 col-xs-12">
-						<label>Category</label>
+						<label className="heading-3 text-light">Category<span className="di-icon-help-outline help-icon" aria-hidden="true"></span></label>
 					</div>
 					<div className="col-md-3 col-sm-3 col-xs-12">
-						<label>Filter Message</label>
+						<label className="heading-3 text-light">Filter Message<span className="di-icon-help-outline help-icon" aria-hidden="true"></span></label>
 					</div>
-					<div className="col-md-3 col-sm-4 col-xs-12">
-						<label>Channels </label>
+					<div className="col-md-3 col-sm-3 col-xs-12">
+						<label className="heading-3 text-light">Channels </label>
 					</div>
 				</div>
-				<div className="col-md-12 col-sm-12 col-xs-12 ">
+				<div className="col-md-12 col-sm-12 col-xs-12 align-vertically">
 					<div className="col-md-3 col-sm-3 col-xs-12">
 						<DropDown
 							onSelect={this.onCategoreySlected}
@@ -83,20 +83,21 @@ export default class AdvancedSearch extends Component {
 					</div>
 					<div className="col-md-3 col-sm-3 col-xs-12">
 						<Input
-							textplaceHolder="Search"
+							textplaceHolder="Start typing to filter..."
 							onChange={this.searchStringSelected}
 							width={100}
 						/>
 					</div>
-					<div className="col-md-3 col-sm-4 col-xs-12">
-						<label className="di-checkbox"><input className="sm" type="checkbox" checked={this.state.emailChecked} onChange={this.handleChangeChk}/><span
-							className="lbl sm">Email</span></label>
+					<div className="col-md-3 col-sm-3 col-xs-12 channels-flex">
+						<span className="di-checkbox"><input className="sm" type="checkbox" checked={this.state.emailChecked} onChange={this.handleChangeChk}/><span
+							className="lbl sm">Email</span></span>
+						
 
-						<label className="di-checkbox"><input className="sm" type="checkbox" checked={this.state.smsChecked} onChange={this.handleChangeChk}/><span
-							className="lbl sm">Text</span></label>
+						<span className="di-checkbox"><input className="sm" type="checkbox" checked={this.state.smsChecked} onChange={this.handleChangeChk}/><span
+							className="lbl sm">Text</span></span>
 
-						<label className="di-checkbox"><input className="sm" type="checkbox" checked={this.state.pushChecked} onChange={this.handleChangeChk}/><span
-							className="lbl sm">Push</span></label>
+						<span className="di-checkbox"><input className="sm" type="checkbox" checked={this.state.pushChecked} onChange={this.handleChangeChk}/><span
+							className="lbl sm">Push</span></span>
 					</div>
 
 				</div>

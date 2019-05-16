@@ -37,10 +37,12 @@ class MainLayout extends Component {
                <div className="row">
                    <div className="col-xs-12">&nbsp;</div>
                </div>
-                <div>
+                <div className="row">
+                    <div className="col-md-12 col-sm-12 col-xs-12">
                     <ResultTable
 
                     />
+                    </div>
                 </div>
             </div>
 

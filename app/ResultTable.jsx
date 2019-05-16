@@ -49,64 +49,60 @@ class ResultTable extends React.Component {
             'Platform',
             'Alert Source',
             'Delivery Type',
-            'Description'
+            'Description',
+            ''
         ];
 
         const {alertTypeStore, alertTemplateStore, loaderStore} = this.props;
         const { collapseID } = this.state;
         return (
-            <div className="di-rs-table">
+            <table class="table table-striped">
                 <Thead columns={columns}/>
+                
+                <tbody>
                 {alertTypeStore.filteredAlertTypes ? alertTypeStore.filteredAlertTypes.map((obj) => {
                         return (
-                            <div>
-                                <div className="row data">
-                                    <div className="col-xs-2"><span className="cell">{obj.alertTypeName}</span></div>
-                                    <div className="col-xs-2"><span className="cell">{obj.platform}</span></div>
-                                    <div className="col-xs-2"><span className="cell">{obj.vendor}</span></div>
-                                    <div className="col-xs-2">
-                                        <span className="cell">
-                                          {
-                                              obj.deliveryTypes.map((element) => {
-                                                  if (element === "EMAIL")
-                                                      return <span className="glyphicon glyphicon-envelope"></span>
-                                                  if (element === "SMS")
-                                                      return <span className="glyphicon glyphicon-comment"></span>
-                                                  if (element === "PUSH")
-                                                      return <span className="glyphicon glyphicon-bell"></span>
+                            <React.Fragment>
+                            <tr>
+                                <td>{obj.alertTypeName}</td>
+                                <td>{obj.platform}</td>
+                                <td>{obj.vendor}</td>
+                                    <td>
+                                        {
+                                            obj.deliveryTypes.map((element) => {
+                                                if (element === "EMAIL")
+                                                    return <span className="glyphicon glyphicon-envelope icon-margin"></span>
+                                                if (element === "SMS")
+                                                    return <span className="glyphicon glyphicon-comment icon-margin"></span>
+                                                if (element === "PUSH")
+                                                    return <span className="glyphicon glyphicon-bell icon-margin"></span>
 
-                                              })
-                                          }
-                                        </span>
-                                    </div>
-                                    <div className="col-xs-2"><span className="cell">{obj.description}</span></div>
-                                    <div className="col-xs-2"><span className="cell"><span
-                                        className={this.state.collapseID === obj.alertTypeId ? "caret up" : "caret"}
-                                        onClick={(e) => this.expandAccordian(obj)}></span></span></div>
-                                </div>
+                                            })
+                                        }
+                                    </td>
+                                
+                                <td>{obj.description}</td>
+                                <td><span
+                                    className={this.state.collapseID === obj.alertTypeId ? "glyphicon glyphicon-menu-up" : "glyphicon glyphicon-menu-down"}
+                                    onClick={(e) => this.expandAccordian(obj)}></span></td>
+                            </tr>
+                            {loaderStore.isLoading && collapseID === obj.alertTypeId ? 
+                                    <Loader /> : this.state.collapseID === obj.alertTypeId && <tr>
+                            <td colSpan="6">
+                            <div id={"accordion_" + obj.alertTypeId}
+                                    className={this.state.collapseID === obj.alertTypeId ? "collapse in row data" : "collapse"}>
+                                <EditorTabs
 
-                                {/* <div id={"accordion_" + obj.alertTypeId}
-                                     className={this.state.collapseID === obj.alertTypeId ? "collapse in row data" : "collapse"}>
-                                   <EditorTabs
-
-                                        />
-                                </div> */}
-                                {loaderStore.isLoading && collapseID === obj.alertTypeId ? 
-                                    <Loader /> : 
-                                    <div id={"accordion_" + obj.alertTypeId}
-                                     className={this.state.collapseID === obj.alertTypeId ? "collapse in row data" : "collapse"}>
-                                   <EditorTabs
-
-                                        />
-                                </div>}
-
+                                    />
                             </div>
-
+                            </td>
+                            </tr>}
+                            </React.Fragment>            
                         )
                     })
                     : null}
-
-            </div>
+            </tbody>
+            </table>
         );
     }
 
