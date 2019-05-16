@@ -1280,6 +1280,11 @@ body * { visibility: hidden; margin: none; padding: none; }
 	color:black;
 }
 
+.main-layout-loader {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
 
 
 

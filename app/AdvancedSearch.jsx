@@ -1,6 +1,6 @@
 import React, { Component } from "react";
- import {inject, observer} from 'mobx-react';
- import DropDown from "./DropDown";
+import {inject, observer} from 'mobx-react';
+import DropDown from "./DropDown";
 
 import Input from "./Input"
 import  AlertTypeResourceStore from "./store/AlertTypeStore";

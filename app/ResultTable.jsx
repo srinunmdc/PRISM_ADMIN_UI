@@ -4,9 +4,10 @@ import {observer, inject} from 'mobx-react';
 import AlertTemplateService from './service/AlertTemplateService'
 import EditorTabs from './editor/EditorTabs';
 import AlertTemplateResourceStore from "./store/AlertTemplateStore";
+import LoaderResourceStore from "./store/LoaderStore";
+import { Loader } from "di-components";
 
-
-@inject('alertTypeStore')
+@inject('alertTypeStore', 'loaderStore')
 @observer
 class ResultTable extends React.Component {
 
@@ -51,7 +52,8 @@ class ResultTable extends React.Component {
             'Description'
         ];
 
-        const {alertTypeStore, alertTemplateStore} = this.props;
+        const {alertTypeStore, alertTemplateStore, loaderStore} = this.props;
+        const { collapseID } = this.state;
         return (
             <div className="di-rs-table">
                 <Thead columns={columns}/>
@@ -83,13 +85,20 @@ class ResultTable extends React.Component {
                                         onClick={(e) => this.expandAccordian(obj)}></span></span></div>
                                 </div>
 
-                                <div id={"accordion_" + obj.alertTypeId}
+                                {/* <div id={"accordion_" + obj.alertTypeId}
                                      className={this.state.collapseID === obj.alertTypeId ? "collapse in row data" : "collapse"}>
                                    <EditorTabs
 
                                         />
-                                </div>
+                                </div> */}
+                                {loaderStore.isLoading && collapseID === obj.alertTypeId ? 
+                                    <Loader /> : 
+                                    <div id={"accordion_" + obj.alertTypeId}
+                                     className={this.state.collapseID === obj.alertTypeId ? "collapse in row data" : "collapse"}>
+                                   <EditorTabs
 
+                                        />
+                                </div>}
 
                             </div>
 

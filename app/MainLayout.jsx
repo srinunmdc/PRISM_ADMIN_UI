@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+import {observer, inject} from 'mobx-react';
+import { Loader } from "di-components";
+
 import AdvancedSearch from "./AdvancedSearch";
 import ResultTable from "./ResultTable";
 import AlertTypeService from "./service/AlertTypeService";
 
+@inject('loaderStore')
+@observer
 class MainLayout extends Component {
     constructor(props){
         super(props);
@@ -14,6 +19,14 @@ class MainLayout extends Component {
     }
 
     render() {
+        const { loaderStore} = this.props;
+        if (loaderStore.isFullScreenLoading) {
+            return (
+                <div className="main-layout-loader">
+                    <Loader />
+                </div>
+            )
+        }
         return (
            <div>
                 <div className="ad-search-pannel">
