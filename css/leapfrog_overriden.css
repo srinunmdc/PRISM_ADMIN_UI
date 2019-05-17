@@ -1287,6 +1287,10 @@ body * { visibility: hidden; margin: none; padding: none; }
 	left: 50%;
 }
 
+.main-layout-loader .first {
+	line-height: 0px !important;
+}
+
 
 
 

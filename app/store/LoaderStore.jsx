@@ -1,30 +1,33 @@
-'use strict'
-import { observable, action, configure, toJS } from 'mobx';
-configure({ enforceActions: 'observed' });
+"use strict";
+
+import { observable, action, configure, toJS } from "mobx";
+
+configure({ enforceActions: "observed" });
 
 class LoaderStore {
-    @observable isLoading = false;
-    @observable isFullScreenLoading = false;
+  @observable isLoading = false;
 
-    @action
-    loadingStart = () => {
-        this.isLoading = true;
-    };
+  @observable isAppLoading = false;
 
-    @action
-    loadingComplete = () => {
-        this.isLoading = false;
-    };
+  @action
+  loadingStart = () => {
+    this.isLoading = true;
+  };
 
-    @action
-    fullScreenLoadingStart = () => {
-        this.isFullScreenLoading = true;
-    };
+  @action
+  loadingComplete = () => {
+    this.isLoading = false;
+  };
 
-    @action
-    fullScreenLoadingComplete = () => {
-        this.isFullScreenLoading = false;
-    };
+  @action
+  fullScreenLoadingStart = () => {
+    this.isAppLoading = true;
+  };
+
+  @action
+  fullScreenLoadingComplete = () => {
+    this.isAppLoading = false;
+  };
 }
 const LoaderResourceStore = new LoaderStore();
 export default LoaderResourceStore;

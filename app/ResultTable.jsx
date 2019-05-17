@@ -108,27 +108,21 @@ class ResultTable extends React.Component {
                         />
                       </td>
                     </tr>
-                    {loaderStore.isLoading && collapseID === obj.alertTypeId ? (
-                      <td colSpan="6">
-                        <Loader />
-                      </td>
-                    ) : (
-                      this.state.collapseID === obj.alertTypeId && (
-                        <tr>
-                          <td colSpan="6">
-                            <div
-                              id={"accordion_" + obj.alertTypeId}
-                              className={
-                                this.state.collapseID === obj.alertTypeId
-                                  ? "collapse in row data"
-                                  : "collapse"
-                              }
-                            >
-                              <EditorTabs />
-                            </div>
-                          </td>
-                        </tr>
-                      )
+                    {collapseID === obj.alertTypeId && (
+                      <tr>
+                        <td colSpan="6">
+                          <div
+                            id={`accordion_${obj.alertTypeId}`}
+                            className={
+                              collapseID === obj.alertTypeId
+                                ? "collapse in row data"
+                                : "collapse"
+                            }
+                          >
+                            <EditorTabs />
+                          </div>
+                        </td>
+                      </tr>
                     )}
                   </React.Fragment>
                 );
@@ -139,5 +133,4 @@ class ResultTable extends React.Component {
     );
   }
 }
-
 export default ResultTable;
