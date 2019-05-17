@@ -1,5 +1,3 @@
-
-
 import AlertManagementService from "./AlertManagementService";
 import AlertTemplateResourceStore from "../store/AlertTemplateStore";
 import LoaderResourceStore from "../store/LoaderStore";

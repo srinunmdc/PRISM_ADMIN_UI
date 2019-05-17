@@ -1,6 +1,6 @@
 "use strict";
 
-import { observable, action, configure, toJS } from "mobx";
+import { observable, action, configure } from "mobx";
 
 configure({ enforceActions: "observed" });
 
@@ -20,12 +20,12 @@ class LoaderStore {
   };
 
   @action
-  fullScreenLoadingStart = () => {
+  appLoadingStart = () => {
     this.isAppLoading = true;
   };
 
   @action
-  fullScreenLoadingComplete = () => {
+  appLoadingComplete = () => {
     this.isAppLoading = false;
   };
 }
