@@ -20,19 +20,19 @@ export default class AdvancedSearch extends Component {
 			pushChecked:true
 
 		};
+		this.handleChangeEmail = this.handleChangeEmail.bind(this);
 	}
-
+	setFilteredArray=() => {
+		const deliveryTypes={"EMAIL": this.state.emailChecked,"SMS": this.state.smsChecked,"PUSH": this.state.pushChecked};
+		AlertTypeResourceStore.setFilteredAlertTypes(deliveryTypes, this.state.categorey, this.state.serachText)
+	}
 	searchStringSelected=(value)=>{
-		this.setState({searchString: value.toString()})
-
-		AlertTypeResourceStore.setFilteredAlertTypes(this.state.categorey, value)
-
+		this.setState({serachText: value.toString()}, () => { this.setFilteredArray(); })
 	}
 
 	onCategoreySlected=(categorey)=>{
 		AlertTypeResourceStore.setCategories(categorey);
-		this.setState({categorey: categorey});
-		AlertTypeResourceStore.setFilteredAlertTypes(categorey, this.state.serachText);
+		this.setState({categorey: categorey}, () => { this.setFilteredArray(); });
 	}
 
 	onEventTypeSlected=(categorey)=>{
@@ -40,8 +40,16 @@ export default class AdvancedSearch extends Component {
 		//AlertTypeResourceStore.setFilteredAlertTypes(categorey, this.state.serachText);
 	}
 
-	handleChangeChk = (e) =>{
-		console.log(e);
+	handleChangeEmail = (e) =>{
+		this.setState({emailChecked: !this.state.emailChecked}, () => { this.setFilteredArray(); })	
+	}
+
+	handleChangeText = (e) =>{
+		this.setState({smsChecked: !this.state.smsChecked}, () => { this.setFilteredArray(); })	
+	}
+
+	handleChangePush = (e) =>{
+		this.setState({pushChecked: !this.state.pushChecked}, () => { this.setFilteredArray(); })	
 	}
 
 	render(){
@@ -50,7 +58,7 @@ export default class AdvancedSearch extends Component {
 
 		return(
 			<div className="row">
-				<div className="col-md-12 col-sm-12 col-xs-12">
+				<div className="col-md-12 col-sm-12 col-xs-12 ">
 					{/* <div className="col-md-3 col-sm-3 col-xs-12">
 						<label className="heading-3 text-light">Event Type<span className="di-icon-help-outline help-icon" aria-hidden="true"></span></label>
 					</div> */}
@@ -89,14 +97,14 @@ export default class AdvancedSearch extends Component {
 						/>
 					</div>
 					<div className="col-md-3 col-sm-3 col-xs-12">
-						<span className="di-checkbox margin-15"><input className="sm" type="checkbox" checked={this.state.emailChecked} onChange={this.handleChangeChk}/><span
+						<span className="di-checkbox margin-15"><input className="sm" type="checkbox" checked={this.state.emailChecked} onChange={this.handleChangeEmail}/><span
 							className="lbl sm">Email</span></span>
 						
 
-						<span className="di-checkbox margin-15"><input className="sm" type="checkbox" checked={this.state.smsChecked} onChange={this.handleChangeChk}/><span
+						<span className="di-checkbox margin-15"><input className="sm" type="checkbox" checked={this.state.smsChecked} onChange={this.handleChangeText}/><span
 							className="lbl sm">Text</span></span>
 
-						<span className="di-checkbox margin-15"><input className="sm" type="checkbox" checked={this.state.pushChecked} onChange={this.handleChangeChk}/><span
+						<span className="di-checkbox margin-15"><input className="sm" type="checkbox" checked={this.state.pushChecked} onChange={this.handleChangePush}/><span
 							className="lbl sm">Push</span></span>
 					</div>
 
