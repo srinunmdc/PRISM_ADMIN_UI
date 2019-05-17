@@ -1,89 +1,111 @@
-'use strict'
-import { observable, action, configure, toJS } from 'mobx';
-configure({ enforceActions: 'observed' });
+"use strict";
+import { observable, action, configure, toJS } from "mobx";
+import sort from "../util/sort";
+configure({ enforceActions: "observed" });
 
 class AlertTypeStore {
-    @observable alertTypes = [];
-    @observable filteredAlertTypes = [];
-    @observable alertCategories = {};
-    @observable eventTypes = [];
+  @observable alertTypes = [];
+  @observable filteredAlertTypes = [];
+  @observable alertCategories = {};
+  @observable eventTypes = [];
 
-    @action
-    setAlertTypes = (alertTypeResources) => {
-        if (alertTypeResources && alertTypeResources.alertTypes && Array.isArray(alertTypeResources.alertTypes)) {
-            const alertTypes = this.processData(alertTypeResources.alertTypes.slice());
+  @action
+  setAlertTypes = alertTypeResources => {
+    if (
+      alertTypeResources &&
+      alertTypeResources.alertTypes &&
+      Array.isArray(alertTypeResources.alertTypes)
+    ) {
+      const alertTypes = this.processData(
+        alertTypeResources.alertTypes.slice()
+      );
 
-            this.alertTypes = alertTypes
-            this.filteredAlertTypes = alertTypes;
+      this.alertTypes = alertTypes;
+      this.filteredAlertTypes = alertTypes;
 
-            let categoryOptions = this.fetchCategories(alertTypes);
-            this.alertCategories = {selected: categoryOptions[0],
-                options : categoryOptions};
-            this.eventTypes = this.fetchEventTypes(alertTypes);
+      let categoryOptions = this.fetchCategories(alertTypes);
+      this.alertCategories = {
+        selected: categoryOptions[0],
+        options: categoryOptions
+      };
+      this.eventTypes = this.fetchEventTypes(alertTypes);
+    }
+  };
+
+  @action
+  setFilteredAlertTypes = (deliverFilter, categorey, searchText) => {
+    console.log(searchText);
+
+    let beforeFiltered = this.alertTypes;
+
+    if (categorey && categorey !== "" && categorey !== "All Categories") {
+      beforeFiltered = this.alertTypes.filter(item => {
+        if (item.alertCategory === categorey) {
+          return item;
         }
-
+      });
     }
+    beforeFiltered = beforeFiltered.filter(item => {
+      if (deliverFilter["EMAIL"] && item.deliveryTypes.includes("EMAIL")) {
+        return item;
+      } else if (deliverFilter["SMS"] && item.deliveryTypes.includes("SMS")) {
+        return item;
+      } else if (deliverFilter["PUSH"] && item.deliveryTypes.includes("PUSH")) {
+        return item;
+      }
+    });
 
-    @action
-    setFilteredAlertTypes = (categorey, searchText) => {
-        console.log(searchText)
+    beforeFiltered = beforeFiltered.filter(item => {
+      if (item.searchText.toLowerCase().includes(searchText.toLowerCase())) {
+        return toJS(item);
+      }
+    });
+    this.filteredAlertTypes = beforeFiltered;
+    console.log(this.filteredAlertTypes);
+  };
 
-        let categoreyFiltered = this.alertTypes;
+  processData = data => {
+    return data.map(item => {
+      return {
+        ...item,
+        searchText:
+          item.description +
+          " " +
+          item.alertTypeName +
+          " " +
+          item.platform +
+          " " +
+          item.vendor
+      };
+    });
+  };
 
-        if(categorey && categorey !== "" && categorey !== "All Categories") {
+  fetchCategories = data => {
+    let categories = ["All Categories"];
+    data.map(item => {
+      if (item.alertCategory && item.alertCategory != "") {
+        categories.push(item.alertCategory);
+      }
+    });
 
-            categoreyFiltered = this.alertTypes.filter((item) => {
-                if (item.alertCategory === categorey) {
-                    return item
-                }
-            })
+    return [...new Set(categories)];
+  };
 
-        }
+  @action
+  setCategories = category => {
+    this.alertCategories.selected = category;
+  };
 
-        this.filteredAlertTypes = categoreyFiltered.filter((item)=>{
-            if(item.searchText.toLowerCase().includes(searchText.toLowerCase())){
-                return toJS(item);
-            }
-        })
+  fetchEventTypes = data => {
+    let eventTypes = ["All Events"];
 
-        console.log(this.filteredAlertTypes)
-    }
+    return [...new Set(eventTypes)];
+  };
 
-
-    processData = (data) =>{
-        return data.map(item=>{
-            return {...item, searchText: item.description +' '+ item.alertTypeName +' '+ item.platform +' '+ item.vendor }
-        })
-    }
-
-    fetchCategories = (data) =>{
-        let categories =["All Categories"]
-        data.map(item=>{
-            if(item.alertCategory && item.alertCategory != ""){categories.push(item.alertCategory)};
-        })
-
-        return [...new Set(categories)];
-    }
-    
-    @action
-    setCategories = (category) =>{
-        this.alertCategories.selected = category;
-    }
-
-    fetchEventTypes = (data) =>{
-        let eventTypes =["All Events"]
-
-        return [...new Set(eventTypes)];
-    }
-
-
-
-    resetStore = () => {
-        this.alertTypes = [];
-        this.filteredAlertTypes = [];
-
-    };
-
+  resetStore = () => {
+    this.alertTypes = [];
+    this.filteredAlertTypes = [];
+  };
 }
 const AlertTypeResourceStore = new AlertTypeStore();
 export default AlertTypeResourceStore;

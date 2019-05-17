@@ -1,9 +1,12 @@
 import React from "react";
-import { observer, inject } from "mobx-react";
 import Thead from "./table-head";
+import { observer, inject } from "mobx-react";
 import AlertTemplateService from "./service/AlertTemplateService";
 import EditorTabs from "./editor/EditorTabs";
 import AlertTemplateResourceStore from "./store/AlertTemplateStore";
+import sort from "./util/sort";
+import LoaderResourceStore from "./store/LoaderStore";
+import { Loader } from "di-components";
 
 @inject("alertTypeStore", "loaderStore")
 @observer
@@ -15,11 +18,14 @@ class ResultTable extends React.Component {
       order: false,
       alertType: "",
       collapseID: "",
-      mode: "EDIT"
+      mode: "EDIT",
+      sortOrder: "asc",
+      sortKey: ""
     };
+    this.sortFields = this.sortFields.bind(this);
   }
 
-  onClick() {
+  onClick(alertTypeResourse) {
     //  console.log(alertTypeResourse);
     // this.setState({alertType: alertTypeName})
     //   AlertTypeActions.setSelectedAlertType(alertTypeResourse);
@@ -38,77 +44,89 @@ class ResultTable extends React.Component {
     }
   };
 
-  render() {
-    const columns = [
-      "Alert Type",
-      "Platform",
-      "Alert Source",
-      "Delivery Type",
-      "Description",
-      ""
-    ];
+  sortFields(sortKey, sortOrder) {
+    this.setState({
+      sortKey,
+      sortOrder
+    });
+  }
 
-    const { alertTypeStore } = this.props;
+  render() {
+    let columns = [
+      { label: "Alert Type", value: "alertTypeName" },
+      { label: "Platform", value: "platform" },
+      { label: "Alert Source", value: "vendor" },
+      { label: "Delivery Type", value: "" },
+      { label: "Description", value: "description" },
+      { label: "", value: "" }
+    ];
+    const { alertTypeStore, alertTemplateStore, loaderStore } = this.props;
     const { collapseID } = this.state;
     return (
-      <table className="table table-striped">
-        <Thead columns={columns} />
+      <table class="table table-striped">
+        <Thead columns={columns} sort={this.sortFields} />
 
         <tbody>
           {alertTypeStore.filteredAlertTypes
-            ? alertTypeStore.filteredAlertTypes.map(obj => (
-                <React.Fragment>
-                  <tr>
-                    <td>{obj.alertTypeName}</td>
-                    <td>{obj.platform}</td>
-                    <td>{obj.vendor}</td>
-                    <td>
-                      {obj.deliveryTypes.map(element => {
-                        if (element === "EMAIL")
-                          return (
-                            <span className="glyphicon glyphicon-envelope icon-margin" />
-                          );
-                        if (element === "SMS")
-                          return (
-                            <span className="glyphicon glyphicon-comment icon-margin" />
-                          );
-                        if (element === "PUSH")
-                          return (
-                            <span className="glyphicon glyphicon-bell icon-margin" />
-                          );
-                      })}
-                    </td>
-
-                    <td>{obj.description}</td>
-                    <td>
-                      <span
-                        className={
-                          collapseID === obj.alertTypeId
-                            ? "glyphicon glyphicon-menu-up"
-                            : "glyphicon glyphicon-menu-down"
-                        }
-                        onClick={() => this.expandAccordian(obj)}
-                      />
-                    </td>
-                  </tr>
-                  {collapseID === obj.alertTypeId && (
+            ? sort(
+                alertTypeStore.filteredAlertTypes,
+                this.state.sortKey,
+                this.state.sortOrder
+              ).map(obj => {
+                return (
+                  <React.Fragment>
                     <tr>
-                      <td colSpan="6">
-                        <div
-                          id={`accordion_${obj.alertTypeId}`}
+                      <td>{obj.alertTypeName}</td>
+                      <td>{obj.platform}</td>
+                      <td>{obj.vendor}</td>
+                      <td>
+                        {obj.deliveryTypes.map(element => {
+                          if (element === "EMAIL")
+                            return (
+                              <span className="glyphicon glyphicon-envelope icon-margin" />
+                            );
+                          if (element === "SMS")
+                            return (
+                              <span className="glyphicon glyphicon-comment icon-margin" />
+                            );
+                          if (element === "PUSH")
+                            return (
+                              <span className="glyphicon glyphicon-bell icon-margin" />
+                            );
+                        })}
+                      </td>
+
+                      <td>{obj.description}</td>
+                      <td>
+                        <span
                           className={
-                            collapseID === obj.alertTypeId
-                              ? "collapse in row data"
-                              : "collapse"
+                            this.state.collapseID === obj.alertTypeId
+                              ? "glyphicon glyphicon-menu-up"
+                              : "glyphicon glyphicon-menu-down"
                           }
-                        >
-                          <EditorTabs />
-                        </div>
+                          onClick={e => this.expandAccordian(obj)}
+                        />
                       </td>
                     </tr>
-                  )}
-                </React.Fragment>
-              ))
+                    {collapseID === obj.alertTypeId && (
+                      <tr>
+                        <td colSpan="6">
+                          <div
+                            id={`accordion_${obj.alertTypeId}`}
+                            className={
+                              collapseID === obj.alertTypeId
+                                ? "collapse in row data"
+                                : "collapse"
+                            }
+                          >
+                            <EditorTabs />
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                );
+              })
             : null}
         </tbody>
       </table>
