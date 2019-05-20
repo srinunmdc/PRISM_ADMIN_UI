@@ -98,7 +98,7 @@ class ResultTable extends React.Component {
                       <td>
                         <span
                           className={
-                            this.state.collapseID === obj.alertTypeId
+                            collapseID === obj.alertTypeId
                               ? "glyphicon glyphicon-menu-up"
                               : "glyphicon glyphicon-menu-down"
                           }
@@ -108,15 +108,8 @@ class ResultTable extends React.Component {
                     </tr>
                     {collapseID === obj.alertTypeId && (
                       <tr>
-                        <td colSpan="6">
-                          <div
-                            id={`accordion_${obj.alertTypeId}`}
-                            className={
-                              collapseID === obj.alertTypeId
-                                ? "collapse in row data"
-                                : "collapse"
-                            }
-                          >
+                        <td colSpan="6" style={{ padding: 0 }}>
+                          <div id={`accordion_${obj.alertTypeId}`}>
                             <EditorTabs />
                           </div>
                         </td>
