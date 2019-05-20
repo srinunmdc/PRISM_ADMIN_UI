@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 import DropDown from "./DropDown";
-import ReactTooltip from "react-tooltip";
+import MainTooltip from "./MainTooltip";
 import Input from "./Input";
 import AlertTypeResourceStore from "./store/AlertTypeStore";
 
@@ -19,7 +19,6 @@ class AdvancedSearch extends Component {
     };
     window.that = this;
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
-    this.tooltipClose = this.tooltipClose.bind(this);
   }
 
   setFilteredArray = () => {
@@ -71,17 +70,10 @@ class AdvancedSearch extends Component {
     });
   };
 
-  tooltipClose() {
-    debugger;
-  }
-
   render() {
     const { alertTypeStore } = this.props;
-    const close =
-      "<span class='di-icon-close tooltip-close' aria-hidden='true' onclick=window.that.tooltip.tooltipRef=null;window.that.tooltip.hideTooltip();></span>";
-    const data =
+    const filterData =
       "<h3>Why did I get this page?</h3><span>Common reasons include:</span><ul class='margin-left-20'><li>You recently cleared your cookies <a href='#' target='blank'>Learn more</a></li><li>You are browsing in private ir incognito mode</li><li>You are using a different browser from the one you set last time</li><li>You knowingly or unknowningly asked to skip this extra security step</li></ul>";
-    const content = close + data;
     return (
       <React.Fragment>
         <div className="row">
@@ -104,7 +96,7 @@ class AdvancedSearch extends Component {
               <label className="heading-3 text-light">
                 Filter Message
                 <span
-                  data-tip={`${content}`}
+                  data-tip={filterData}
                   className="di-icon-help-outline help-icon"
                   aria-hidden="true"
                 />
@@ -171,28 +163,7 @@ class AdvancedSearch extends Component {
             </div>
           </div>
         </div>
-        <ReactTooltip
-          event="click"
-          globalEventOff="click"
-          place="bottom"
-          effect="solid"
-          className="help-tooltip"
-          multiline
-          html
-          clickable
-          afterShow={evt => {
-            for (const tooltip of document.querySelectorAll(".help-tooltip")) {
-              tooltip.addEventListener("click", e => e.stopPropagation());
-            }
-          }}
-          afterHide={evt => {
-            for (const tooltip of document.querySelectorAll(".help-tooltip")) {
-              tooltip.addEventListener("click", e => e.stopPropagation());
-            }
-          }}
-          offset={{ top: -10, right: 3 }}
-          ref={el => (this.tooltip = el)}
-        />
+        <MainTooltip />
       </React.Fragment>
     );
   }
