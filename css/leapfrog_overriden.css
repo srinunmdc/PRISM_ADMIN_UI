@@ -642,16 +642,26 @@
 }
 .dropdown-control{
 	height: 42px;
-    text-align: center;
     border: 0;
-    padding-left: 20px;
-    padding-right: 20px;
-    background-color: #FFF;
-    box-shadow: 1px 1px 2px 0 rgba(0,0,0,0.45);
+    padding-left: 8px;
+    background-color: lightgrey;
+	box-shadow: 1px 1px 2px 0 rgba(0,0,0,0.45);
+	position: relative;
 }
 .Dropdown-placeholder{
-	padding-right: 10px;
-	padding-top: 10px;
+	height: 100%;
+    padding: 0px;
+    vertical-align: sub;
+    align-items: center;
+    display: flex;
+}
+
+.dropdown-control .caret{
+	float: right;
+	top: 50%;
+	position: absolute;
+	right: 3%;
+	transform: translateY(-50%);
 }
 
 .dropdownoptions{
@@ -845,7 +855,6 @@ body * { visibility: hidden; margin: none; padding: none; }
 
 .dropdown-control {
     height: 42px;
-    text-align: center;
     border: 0;
     padding-left: 20px;
     padding-right: 20px;
@@ -1074,11 +1083,7 @@ body * { visibility: hidden; margin: none; padding: none; }
 	margin-left: 10px !important;
 }
 .ad-search-pannel .dropdown-control {
-	height: 35px;
-    text-align: center;
     border: 0;
-    padding-left: 20px;
-    padding-right: 20px;
     box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.45) !important;
 }
 
@@ -1143,7 +1148,8 @@ body * { visibility: hidden; margin: none; padding: none; }
 }
 
 .ad-search-type {
-    display: flex;
+	display: flex;
+	height: 40px;
 }
 
 .ad-search-type .search-type{
@@ -1275,6 +1281,15 @@ body * { visibility: hidden; margin: none; padding: none; }
 	color:black;
 }
 
+.main-layout-loader {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+}
+
+.main-layout-loader .first {
+	line-height: 0px !important;
+}
 
 
 
@@ -1349,7 +1364,7 @@ body * { visibility: hidden; margin: none; padding: none; }
   margin-top: -10px;
 }
 
-.on-gray .dropdown-control {
+.dropdown-control.on-gray {
 	background-color: #ededed !important;
 }
 
@@ -1422,4 +1437,110 @@ body * { visibility: hidden; margin: none; padding: none; }
 }
 .text-center {
   text-align: center;
+}
+
+.channels-flex {
+	display: flex;
+	justify-content: space-between;
+}
+
+.align-vertically {
+	display: flex;
+	align-items: center;
+}
+
+.heading-1 {
+	font-size: 28px;
+	line-height: 40px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 500;
+}
+
+.heading-2 {
+	font-size: 24px;
+	line-height: 34px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 500;
+}
+
+.heading-3 {
+	font-size: 18px;
+	line-height: 26px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 500;
+}
+
+.help-icon {
+	color: #666666;
+    padding-left: 8px;
+    vertical-align: middle;
+}
+
+.table>tbody>tr>td {
+	padding: 17px 0px;
+}
+.table>tbody>tr>td:first-child {
+	padding: 17px 5px;
+}
+.table>thead>th {
+	padding: 10px 0px;
+}
+.table>thead>th:first-child {
+	padding: 10px 5px;
+}
+.ad-search-pannel .col-md-3{
+	padding-left: 0px;
+	padding-right: 15px;
+}
+body{
+	background: white;
+}
+.icon-margin{
+	margin-right: 10px;
+}
+.di-checkbox input[type=checkbox]+.lbl.sm::before{
+	margin-left: 0px;
+}
+
+.margin-15{
+	margin-right: 15px;
+}
+.help-tooltip{
+	background-color: #EDEDED !important;
+	color: #333333 !important;
+	opacity: 1 !important;
+	font-family: Arial, Helvetica, sans-serif !important;
+	font-size: 14px !important;
+	padding: 20px !important;
+	border-color: #EDEDED !important;
+	border-radius: 0px;
+	text-align: left !important; 
+}
+.help-tooltip.place-bottom::after{
+	border-bottom-color: #EDEDED !important;
+	border-bottom-style: solid !important;
+	border-bottom-width: 20px !important;
+	border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    top: -20px;
+    margin-left: -20px;
+}
+.margin-left-20{
+	margin-left: 20px;
+}
+
+.tooltip-close {
+	float: right;
+    margin-top: -10px;
+    margin-right: -10px;
+}
+
+.help-tooltip.place-right:after {
+    border-right-color: #EDEDED !important;
+    border-right-style: solid;
+	/* border-right-width: 20px !important; */
+	/* border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    bottom: -20px;
+    margin-left: -20px; */
 }
