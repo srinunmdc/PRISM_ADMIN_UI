@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
 import DropDown from "./DropDown";
-
+import MainTooltip from "./MainTooltip";
 import Input from "./Input";
 import AlertTypeResourceStore from "./store/AlertTypeStore";
 
@@ -17,8 +17,10 @@ class AdvancedSearch extends Component {
       smsChecked: true,
       pushChecked: true
     };
+    window.that = this;
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
   }
+
   setFilteredArray = () => {
     const deliveryTypes = {
       EMAIL: this.state.emailChecked,
@@ -31,6 +33,7 @@ class AdvancedSearch extends Component {
       this.state.serachText
     );
   };
+
   searchStringSelected = value => {
     this.setState({ serachText: value.toString() }, () => {
       this.setFilteredArray();
@@ -39,14 +42,14 @@ class AdvancedSearch extends Component {
 
   onCategoreySlected = categorey => {
     AlertTypeResourceStore.setCategories(categorey);
-    this.setState({ categorey: categorey }, () => {
+    this.setState({ categorey }, () => {
       this.setFilteredArray();
     });
   };
 
   onEventTypeSlected = categorey => {
-    //this.setState({categorey: categorey});
-    //AlertTypeResourceStore.setFilteredAlertTypes(categorey, this.state.serachText);
+    // this.setState({categorey: categorey});
+    // AlertTypeResourceStore.setFilteredAlertTypes(categorey, this.state.serachText);
   };
 
   handleChangeEmail = e => {
@@ -69,37 +72,42 @@ class AdvancedSearch extends Component {
 
   render() {
     const { alertTypeStore } = this.props;
-
+    const filterData =
+      "<h3>Why did I get this page?</h3><span>Common reasons include:</span><ul class='margin-left-20'><li>You recently cleared your cookies <a href='#' target='blank'>Learn more</a></li><li>You are browsing in private ir incognito mode</li><li>You are using a different browser from the one you set last time</li><li>You knowingly or unknowningly asked to skip this extra security step</li></ul>";
     return (
-      <div className="row">
-        <div className="col-md-12 col-sm-12 col-xs-12 ">
-          {/* <div className="col-md-3 col-sm-3 col-xs-12">
+      <React.Fragment>
+        <div className="row">
+          <div className="col-md-12 col-sm-12 col-xs-12 ">
+            {/* <div className="col-md-3 col-sm-3 col-xs-12">
 						<label className="heading-3 text-light">Event Type<span className="di-icon-help-outline help-icon" aria-hidden="true"></span></label>
 					</div> */}
-          <div className="col-md-3 col-sm-3 col-xs-12">
-            <label className="heading-3 text-light">
-              Category
-              <span
-                className="di-icon-help-outline help-icon"
-                aria-hidden="true"
-              />
-            </label>
+            <div className="col-md-3 col-sm-3 col-xs-12">
+              <label className="heading-3 text-light">
+                Category
+                <span
+                  data-tip="category"
+                  className="di-icon-help-outline help-icon"
+                  aria-hidden="true"
+                />
+              </label>
+              <div class="tip-icon" />
+            </div>
+            <div className="col-md-3 col-sm-3 col-xs-12">
+              <label className="heading-3 text-light">
+                Filter Message
+                <span
+                  data-tip={filterData}
+                  className="di-icon-help-outline help-icon"
+                  aria-hidden="true"
+                />
+              </label>
+            </div>
+            <div className="col-md-3 col-sm-3 col-xs-12">
+              <label className="heading-3 text-light">Channels </label>
+            </div>
           </div>
-          <div className="col-md-3 col-sm-3 col-xs-12">
-            <label className="heading-3 text-light">
-              Filter Message
-              <span
-                className="di-icon-help-outline help-icon"
-                aria-hidden="true"
-              />
-            </label>
-          </div>
-          <div className="col-md-3 col-sm-3 col-xs-12">
-            <label className="heading-3 text-light">Channels </label>
-          </div>
-        </div>
-        <div className="col-md-12 col-sm-12 col-xs-12 align-vertically">
-          {/* <div className="col-md-3 col-sm-3 col-xs-12">
+          <div className="col-md-12 col-sm-12 col-xs-12 align-vertically">
+            {/* <div className="col-md-3 col-sm-3 col-xs-12">
 						<DropDown
 							onSelect={this.onCategoreySlected}
 							default={alertTypeStore.alertCategories.selected}
@@ -107,54 +115,56 @@ class AdvancedSearch extends Component {
 							width={100}
 						/>
 					</div> */}
-          <div className="col-md-3 col-sm-3 col-xs-12">
-            <DropDown
-              onSelect={this.onCategoreySlected}
-              default={alertTypeStore.alertCategories.selected}
-              data={alertTypeStore.alertCategories.options}
-              width={100}
-            />
-          </div>
-          <div className="col-md-3 col-sm-3 col-xs-12">
-            <Input
-              textplaceHolder="Start typing to filter..."
-              onChange={this.searchStringSelected}
-              width={100}
-            />
-          </div>
-          <div className="col-md-3 col-sm-3 col-xs-12">
-            <span className="di-checkbox margin-15">
-              <input
-                className="sm"
-                type="checkbox"
-                checked={this.state.emailChecked}
-                onChange={this.handleChangeEmail}
+            <div className="col-md-3 col-sm-3 col-xs-12">
+              <DropDown
+                onSelect={this.onCategoreySlected}
+                default={alertTypeStore.alertCategories.selected}
+                data={alertTypeStore.alertCategories.options}
+                width={100}
               />
-              <span className="lbl sm">Email</span>
-            </span>
+            </div>
+            <div className="col-md-3 col-sm-3 col-xs-12">
+              <Input
+                textplaceHolder="Start typing to filter..."
+                onChange={this.searchStringSelected}
+                width={100}
+              />
+            </div>
+            <div className="col-md-3 col-sm-3 col-xs-12">
+              <span className="di-checkbox margin-15">
+                <input
+                  className="sm"
+                  type="checkbox"
+                  checked={this.state.emailChecked}
+                  onChange={this.handleChangeEmail}
+                />
+                <span className="lbl sm">Email</span>
+              </span>
 
-            <span className="di-checkbox margin-15">
-              <input
-                className="sm"
-                type="checkbox"
-                checked={this.state.smsChecked}
-                onChange={this.handleChangeText}
-              />
-              <span className="lbl sm">Text</span>
-            </span>
+              <span className="di-checkbox margin-15">
+                <input
+                  className="sm"
+                  type="checkbox"
+                  checked={this.state.smsChecked}
+                  onChange={this.handleChangeText}
+                />
+                <span className="lbl sm">Text</span>
+              </span>
 
-            <span className="di-checkbox margin-15">
-              <input
-                className="sm"
-                type="checkbox"
-                checked={this.state.pushChecked}
-                onChange={this.handleChangePush}
-              />
-              <span className="lbl sm">Push</span>
-            </span>
+              <span className="di-checkbox margin-15">
+                <input
+                  className="sm"
+                  type="checkbox"
+                  checked={this.state.pushChecked}
+                  onChange={this.handleChangePush}
+                />
+                <span className="lbl sm">Push</span>
+              </span>
+            </div>
           </div>
         </div>
-      </div>
+        <MainTooltip />
+      </React.Fragment>
     );
   }
 }
