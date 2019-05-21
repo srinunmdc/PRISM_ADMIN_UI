@@ -24,9 +24,10 @@ class Editor extends React.Component {
     const previewDivStyle = {
       height,
       border: "1px solid #d1d1d1",
-      overflow: "auto"
+      overflow: "auto",
+      padding: "15px"
     };
-    let commonRemove =
+    const commonRemove =
       "PasteText,PasteFromWord,Indent,Outdent,Scayt,Link,Unlink,Anchor,Image,Table,HorizontalRule,SpecialChar,Maximize,Strike,RemoveFormat,NumberedList,BulletedList,Blockquote,Styles,About,Subscript,Superscript";
     let extra = "";
     if (activeTab === "PUSH_BODY" || activeTab === "SMS_BODY") {
@@ -55,19 +56,24 @@ class Editor extends React.Component {
             />
           </div>
         ) : (
-          <div
-            className="col-md-10 col-sm-10 col-xs-12"
-            style={previewDivStyle}
-          >
+          <React.Fragment>
+            <div className="col-md-10 col-sm-10 col-xs-12 preview-header">
+              Preview
+            </div>
             <div
-              dangerouslySetInnerHTML={{
-                __html: replaceDynamicVariable(
-                  data.changedContent,
-                  dynamicVariables
-                )
-              }}
-            />
-          </div>
+              className="col-md-10 col-sm-10 col-xs-12"
+              style={previewDivStyle}
+            >
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: replaceDynamicVariable(
+                    data.changedContent,
+                    dynamicVariables
+                  )
+                }}
+              />
+            </div>
+          </React.Fragment>
         )}
       </div>
     );

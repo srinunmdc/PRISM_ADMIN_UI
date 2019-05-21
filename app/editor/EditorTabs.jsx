@@ -67,7 +67,18 @@ class EditorTabs extends React.Component {
         data = element;
       }
     });
-    data.templateContent = data.changedContent;
+    const regex = /\${\w+\}/g;
+    const dynamicVariables = data.changedContent.match(regex);
+    let content = data.changedContent;
+
+    dynamicVariables.forEach(dynamicVariable => {
+      content = content.replace(
+        dynamicVariable,
+        `<span th:remove="tag" th:text="${dynamicVariable}">${dynamicVariable}</span>`
+      );
+    });
+    // data.templateContent = data.changedContent;
+    data.templateContent = content;
     AlertTemplateService.saveTemplate(data);
     this.setState({
       edited: false
