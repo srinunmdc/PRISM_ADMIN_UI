@@ -1,11 +1,12 @@
-"use strict";
+
+
 import React from "react";
 import ReactDOM from "react-dom";
 import loadScript from "load-script";
 import PropTypes from "prop-types";
-//const loadScript = require('load-script');
+// const loadScript = require('load-script');
 
-var defaultScriptUrl = "https://cdn.ckeditor.com/4.6.2/standard/ckeditor.js";
+const defaultScriptUrl = "https://cdn.ckeditor.com/4.6.2/standard/ckeditor.js";
 
 /**
  * @author codeslayer1
@@ -15,17 +16,17 @@ class CKEditor extends React.Component {
   constructor(props) {
     super(props);
 
-    //Bindings
+    // Bindings
     this.onLoad = this.onLoad.bind(this);
 
-    //State initialization
+    // State initialization
     this.state = {
       isScriptLoaded: this.props.isScriptLoaded,
       config: this.props.config
     };
   }
 
-  //load ckeditor script as soon as component mounts if not already loaded
+  // load ckeditor script as soon as component mounts if not already loaded
   componentDidMount() {
     if (!this.props.isScriptLoaded) {
       loadScript(this.props.scriptUrl, this.onLoad);
@@ -50,11 +51,11 @@ class CKEditor extends React.Component {
       return;
     }
 
-    window.CKEDITOR.dtd.$removeEmpty["span"] = false;
+    window.CKEDITOR.dtd.$removeEmpty.span = false;
 
     if (!window.CKEDITOR.plugins.get("dragFields")) {
       window.CKEDITOR.plugins.add("dragFields", {
-        init: function(editor) {
+        init(editor) {
           editor.on("paste", function(evt) {
             var content = evt.data.dataTransfer.getData("text");
             evt.data.dataValue =
@@ -64,9 +65,9 @@ class CKEditor extends React.Component {
       });
     }
     // Initialize the editor with the hcard plugin.
-    //window.CKEDITOR.inline( 'my_editor', {
-    //extraPlugins: 'dragFields'
-    ///} );
+    // window.CKEDITOR.inline( 'my_editor', {
+    // extraPlugins: 'dragFields'
+    // /} );
 
     this.editorInstance = window.CKEDITOR.appendTo(
       ReactDOM.findDOMNode(this),
@@ -74,9 +75,9 @@ class CKEditor extends React.Component {
       this.props.content
     );
 
-    //Register listener for custom events if any
-    for (var event in this.props.events) {
-      var eventHandler = this.props.events[event];
+    // Register listener for custom events if any
+    for (let event in this.props.events) {
+      const eventHandler = this.props.events[event];
       this.editorInstance.on(event, eventHandler);
     }
   }

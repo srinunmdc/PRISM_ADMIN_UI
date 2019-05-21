@@ -9,10 +9,10 @@ let _data = {
 };
 export default class AlertTypeService {
   static loadAlertTypeResources() {
-    LoaderResourceStore.fullScreenLoadingStart();
+    LoaderResourceStore.appLoadingStart();
     AlertManagementService.getAlertTypeResources()
       .then(response => {
-        LoaderResourceStore.fullScreenLoadingComplete();
+        LoaderResourceStore.appLoadingComplete();
         AlertTypeResourceStore.setAlertTypes(
           JSON.parse(response.data.alertTypes)
         );
@@ -22,7 +22,7 @@ export default class AlertTypeService {
         // global requestID. If it doesn't match, the response is stale and we can
         // ignore it.
         console.log("Exception while fetching templates");
-        LoaderResourceStore.fullScreenLoadingComplete();
+        LoaderResourceStore.appLoadingComplete();
 
         // for local testing only uncomment above _data variable before using below code.
         AlertTypeResourceStore.setAlertTypes(JSON.parse(_data.alertTypes));
