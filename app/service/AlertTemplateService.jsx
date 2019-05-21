@@ -4,8 +4,10 @@ import LoaderResourceStore from "../store/LoaderStore";
 
 const _data = {
   templates:
-    '[{"alertTemplateResourceId":1502,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"Email Body","templateContentType":"EMAIL_BODY","locale":"en_US","state":"DRAFT"},{"alertTemplateResourceId":1503,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"Low Balance Alert for","templateContentType":"EMAIL_SUBJECT","locale":"en_US"},{"alertTemplateResourceId":1505,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"DEFAULT: Corelation Alert Test PUSH_BODY","templateContentType":"PUSH_BODY","locale":"en_US"},{"alertTemplateResourceId":1501,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"DEFAULT: Corelation Alert Test <Span>{RandomText} </Span> SMS_BODY","templateContentType":"SMS_BODY","locale":"en_US"}]'
+    '[{"alertTemplateResourceId":1502,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"Email Body","templateContentType":"EMAIL_BODY","locale":"en_US","state":"DRAFT"},{"alertTemplateResourceId":1503,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"Low Balance Alert for","templateContentType":"EMAIL_SUBJECT","locale":"en_US"},{"alertTemplateResourceId":1505,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"DEFAULT: Corelation Alert Test PUSH_BODY","templateContentType":"PUSH_BODY","locale":"en_US"},{"alertTemplateResourceId":1501,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"DEFAULT: Corelation Alert Test <Span>{RandomText} </Span> SMS_BODY","templateContentType":"SMS_BODY","locale":"en_US"}]',
+  dynamicVariables: '{"accountNumber": "xxx1234", "accountType": "Savings"}'
 };
+
 export default class AlertTemplateService {
   static loadAlertTemplatesResources(alertTypeResource) {
     LoaderResourceStore.loadingStart();

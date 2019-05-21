@@ -16,7 +16,8 @@ class Editor extends React.Component {
     const previewDivStyle = {
       height,
       border: "1px solid #d1d1d1",
-      overflow: "auto"
+      overflow: "auto",
+      padding: "15px"
     };
 
     return (
@@ -25,7 +26,7 @@ class Editor extends React.Component {
           <div className="col-md-10 col-sm-10 col-xs-12">
             <CKEditor
               activeClass="p10"
-              content={data.templateContent}
+              content={data.changedContent}
               events={{
                 change: onChange
               }}
@@ -42,16 +43,21 @@ class Editor extends React.Component {
             />
           </div>
         ) : (
-          <div
-            className="col-md-10 col-sm-10 col-xs-12"
-            style={previewDivStyle}
-          >
+          <React.Fragment>
+            <div className="col-md-10 col-sm-10 col-xs-12 preview-header">
+              Preview
+            </div>
             <div
-              dangerouslySetInnerHTML={{
-                __html: data.changedContent
-              }}
-            />
-          </div>
+              className="col-md-10 col-sm-10 col-xs-12"
+              style={previewDivStyle}
+            >
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: data.changedContent
+                }}
+              />
+            </div>
+          </React.Fragment>
         )}
       </div>
     );
