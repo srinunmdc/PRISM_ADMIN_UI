@@ -58,6 +58,7 @@ class ResultTable extends React.Component {
       { label: "Description", value: "description" },
       { label: "", value: "" }
     ];
+    let hidden = { visibility: "hidden" };
     const { alertTypeStore } = this.props;
     const { collapseID } = this.state;
     return (
@@ -78,20 +79,24 @@ class ResultTable extends React.Component {
                       <td>{obj.platform}</td>
                       <td>{obj.vendor}</td>
                       <td>
-                        {obj.deliveryTypes.map(element => {
-                          if (element === "EMAIL")
-                            return (
-                              <span className="glyphicon glyphicon-envelope icon-margin" />
-                            );
-                          if (element === "SMS")
-                            return (
-                              <span className="glyphicon glyphicon-comment icon-margin" />
-                            );
-                          if (element === "PUSH")
-                            return (
-                              <span className="glyphicon glyphicon-bell icon-margin" />
-                            );
-                        })}
+                        <span
+                          className="glyphicon glyphicon-envelope icon-margin"
+                          style={
+                            obj.deliveryTypes.includes("EMAIL") ? {} : hidden
+                          }
+                        />
+                        <span
+                          className="glyphicon glyphicon-comment icon-margin"
+                          style={
+                            obj.deliveryTypes.includes("SMS") ? {} : hidden
+                          }
+                        />
+                        <span
+                          className="glyphicon glyphicon-bell icon-margin"
+                          style={
+                            obj.deliveryTypes.includes("PUSH") ? {} : hidden
+                          }
+                        />
                       </td>
 
                       <td>{obj.description}</td>
