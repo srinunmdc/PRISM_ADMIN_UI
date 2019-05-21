@@ -1,12 +1,10 @@
 import React from "react";
-import Thead from "./table-head";
 import { observer, inject } from "mobx-react";
+import Thead from "./table-head";
 import AlertTemplateService from "./service/AlertTemplateService";
 import EditorTabs from "./editor/EditorTabs";
 import AlertTemplateResourceStore from "./store/AlertTemplateStore";
 import sort from "./util/sort";
-import LoaderResourceStore from "./store/LoaderStore";
-import { Loader } from "di-components";
 
 @inject("alertTypeStore", "loaderStore")
 @observer
@@ -25,7 +23,7 @@ class ResultTable extends React.Component {
     this.sortFields = this.sortFields.bind(this);
   }
 
-  onClick(alertTypeResourse) {
+  onClick() {
     //  console.log(alertTypeResourse);
     // this.setState({alertType: alertTypeName})
     //   AlertTypeActions.setSelectedAlertType(alertTypeResourse);
@@ -52,7 +50,7 @@ class ResultTable extends React.Component {
   }
 
   render() {
-    let columns = [
+    const columns = [
       { label: "Alert Type", value: "alertTypeName" },
       { label: "Platform", value: "platform" },
       { label: "Alert Source", value: "vendor" },
@@ -61,10 +59,10 @@ class ResultTable extends React.Component {
       { label: "", value: "" }
     ];
     let hidden = { visibility: "hidden" };
-    const { alertTypeStore, alertTemplateStore, loaderStore } = this.props;
+    const { alertTypeStore } = this.props;
     const { collapseID } = this.state;
     return (
-      <table class="table table-striped">
+      <table className="table table-striped">
         <Thead columns={columns} sort={this.sortFields} />
 
         <tbody>
@@ -105,25 +103,18 @@ class ResultTable extends React.Component {
                       <td>
                         <span
                           className={
-                            this.state.collapseID === obj.alertTypeId
+                            collapseID === obj.alertTypeId
                               ? "glyphicon glyphicon-menu-up"
                               : "glyphicon glyphicon-menu-down"
                           }
-                          onClick={e => this.expandAccordian(obj)}
+                          onClick={() => this.expandAccordian(obj)}
                         />
                       </td>
                     </tr>
                     {collapseID === obj.alertTypeId && (
                       <tr>
-                        <td colSpan="6">
-                          <div
-                            id={`accordion_${obj.alertTypeId}`}
-                            className={
-                              collapseID === obj.alertTypeId
-                                ? "collapse in row data"
-                                : "collapse"
-                            }
-                          >
+                        <td colSpan="6" style={{ padding: 0 }}>
+                          <div id={`accordion_${obj.alertTypeId}`}>
                             <EditorTabs />
                           </div>
                         </td>

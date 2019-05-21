@@ -14,47 +14,6 @@ class MainLayout extends Component {
     AlertTypeService.loadAlertTypeResources();
   }
 
-  render() {
-    const { loaderStore } = this.props;
-    if (loaderStore.isAppLoading) {
-      return (
-        <div className="main-layout-loader">
-          <PageLoader />
-        </div>
-      );
-    }
-    return (
-      <LoadingOverlay
-        active={loaderStore.isLoading}
-        spinner={<Loader />}
-        text="Loading..."
-        styles={{
-          overlay: base => ({
-            ...base,
-            background: "rgba(0, 0, 0, 0.3)"
-          }),
-        //   wrapper: {
-        //     minHeight: '100vh',
-        //   }
-        }}
-      >
-        <div>
-          <div className="ad-search-pannel">
-            <AdvancedSearch />
-          </div>
-          <div className="row">
-            <div className="col-xs-12">&nbsp;</div>
-          </div>
-          <div className="row">
-            <div className="col-md-12 col-sm-12 col-xs-12">
-              <ResultTable />
-            </div>
-          </div>
-        </div>
-      </LoadingOverlay>
-    );
-  }
-
   onSuccess(response) {
     console.log("Success Result :");
     console.log(response);
@@ -79,6 +38,47 @@ class MainLayout extends Component {
     console.log("Table Result :");
     console.log(response);
     this.setState({ results: response });
+  }
+
+  render() {
+    const { loaderStore } = this.props;
+    if (loaderStore.isAppLoading) {
+      return (
+        <div className="main-layout-loader">
+          <PageLoader />
+        </div>
+      );
+    }
+    return (
+      <LoadingOverlay
+        active={loaderStore.isLoading}
+        spinner={<Loader />}
+        text="Loading..."
+        styles={{
+          overlay: base => ({
+            ...base,
+            background: "rgba(0, 0, 0, 0.3)"
+          })
+          //   wrapper: {
+          //     minHeight: '100vh',
+          //   }
+        }}
+      >
+        <div>
+          <div className="ad-search-pannel">
+            <AdvancedSearch />
+          </div>
+          <div className="row">
+            <div className="col-xs-12">&nbsp;</div>
+          </div>
+          <div className="row">
+            <div className="col-md-12 col-sm-12 col-xs-12">
+              <ResultTable />
+            </div>
+          </div>
+        </div>
+      </LoadingOverlay>
+    );
   }
 }
 
