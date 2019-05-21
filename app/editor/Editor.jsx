@@ -19,14 +19,23 @@ class Editor extends React.Component {
       border: "1px solid #d1d1d1",
       overflow: "auto"
     };
-
+    let commonRemove =
+      "PasteText,PasteFromWord,Indent,Outdent,Scayt,Link,Unlink,Anchor,Image,Table,HorizontalRule,SpecialChar,Maximize,Strike,RemoveFormat,NumberedList,BulletedList,Blockquote,Styles,About,Subscript,Superscript";
+    let extra = "";
+    if (
+      this.props.activeTab === "PUSH_BODY" ||
+      this.props.activeTab === "SMS_BODY"
+    ) {
+      extra = ",Bold,Italic,Underline,Format";
+    }
+    const finalRemove = commonRemove + extra;
     return (
       <div className="col-md-12 col-sm-12 col-xs-12 editor-preview-wrapper">
         {editMode ? (
           <div className="col-md-10 col-sm-10 col-xs-12">
             <CKEditor
               activeClass="p10"
-              content={data.templateContent}
+              content={data.changedContent}
               events={{
                 change: onChange
               }}
@@ -37,8 +46,7 @@ class Editor extends React.Component {
                 allowedContent: true,
                 disableAutoInline: true,
                 forcePasteAsPlainText: true,
-                removeButtons:
-                  "PasteText,PasteFromWord,Indent,Outdent,Scayt,Link,Unlink,Anchor,Image,Table,HorizontalRule,SpecialChar,Maximize,Strike,RemoveFormat,NumberedList,BulletedList,Blockquote,Styles,About,Subscript,Superscript"
+                removeButtons: finalRemove
               }}
             />
           </div>
