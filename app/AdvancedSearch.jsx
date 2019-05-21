@@ -77,7 +77,7 @@ class AdvancedSearch extends Component {
     return (
       <React.Fragment>
         <div className="row">
-          <div className="col-md-12 col-sm-12 col-xs-12 ">
+          <div className="col-md-12 col-sm-12 col-xs-12 space-between">
             {/* <div className="col-md-3 col-sm-3 col-xs-12">
 						<label className="heading-3 text-light">Event Type<span className="di-icon-help-outline help-icon" aria-hidden="true"></span></label>
 					</div> */}
@@ -106,7 +106,7 @@ class AdvancedSearch extends Component {
               <label className="heading-3 text-light">Channels </label>
             </div>
           </div>
-          <div className="col-md-12 col-sm-12 col-xs-12 align-vertically">
+          <div className="col-md-12 col-sm-12 col-xs-12 align-vertically space-between">
             {/* <div className="col-md-3 col-sm-3 col-xs-12">
 						<DropDown
 							onSelect={this.onCategoreySlected}

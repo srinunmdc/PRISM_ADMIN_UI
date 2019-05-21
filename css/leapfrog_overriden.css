@@ -1556,3 +1556,15 @@ body{
 	padding: 10px 5px;
 }
 /*Bootstrap override css end*/
+
+.button-panel{
+	padding: 30px 0px;
+    border-bottom: 3px solid #EDEDED;
+	border-top: 1px solid #CCC;
+	text-align: right;
+}
+
+.space-between{
+	display: flex;
+	justify-content: space-between;
+}

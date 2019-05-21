@@ -142,7 +142,6 @@ class EditorTabs extends React.Component {
     const { editMode, edited } = this.state;
     const { alertTemplateStore } = this.props;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
-    console.log('activeTab',activeTab);
     return (
       <React.Fragment>
         <div className="tabs">
@@ -171,6 +170,7 @@ class EditorTabs extends React.Component {
                   editMode={editMode}
                   onChange={this.onChange}
                   activeTab={activeTab}
+                  dynamicVariables={alertTemplateStore.dynamicVariables}
                 />
               );
             })}

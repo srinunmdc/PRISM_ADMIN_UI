@@ -24,6 +24,9 @@ export default class AlertTemplateService {
         // for local testing only uncomment above _data variable before using below code.
         LoaderResourceStore.loadingComplete();
         AlertTemplateResourceStore.setTemplates(JSON.parse(_data.templates));
+        AlertTemplateResourceStore.setDynamicVariables(
+          JSON.parse(_data.dynamicVariables)
+        );
       });
   }
 

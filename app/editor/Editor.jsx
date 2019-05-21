@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CKEditor from "./NewCKEditor";
+import replaceDynamicVariable from "../util/replaceDynamicVariable";
 
 class Editor extends React.Component {
   constructor(props) {
@@ -13,7 +14,13 @@ class Editor extends React.Component {
   // eslint-disable-next-line react/sort-comp
   render() {
     const { height } = this.state;
-    const { data, editMode, onChange } = this.props;
+    const {
+      data,
+      editMode,
+      onChange,
+      activeTab,
+      dynamicVariables
+    } = this.props;
     const previewDivStyle = {
       height,
       border: "1px solid #d1d1d1",
@@ -22,10 +29,7 @@ class Editor extends React.Component {
     let commonRemove =
       "PasteText,PasteFromWord,Indent,Outdent,Scayt,Link,Unlink,Anchor,Image,Table,HorizontalRule,SpecialChar,Maximize,Strike,RemoveFormat,NumberedList,BulletedList,Blockquote,Styles,About,Subscript,Superscript";
     let extra = "";
-    if (
-      this.props.activeTab === "PUSH_BODY" ||
-      this.props.activeTab === "SMS_BODY"
-    ) {
+    if (activeTab === "PUSH_BODY" || activeTab === "SMS_BODY") {
       extra = ",Bold,Italic,Underline,Format";
     }
     const finalRemove = commonRemove + extra;
@@ -57,7 +61,10 @@ class Editor extends React.Component {
           >
             <div
               dangerouslySetInnerHTML={{
-                __html: data.changedContent
+                __html: replaceDynamicVariable(
+                  data.changedContent,
+                  dynamicVariables
+                )
               }}
             />
           </div>
