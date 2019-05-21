@@ -11,7 +11,7 @@
 
 .tab-list-item {
     list-style: none;
-    margin-bottom: -1px;
+    /* margin-bottom: -1px; */
     /* padding: 0.5rem 0.75rem; */
     padding: 7px 15px;
     width: 100%;
@@ -26,8 +26,8 @@
 }
 
 .tab-content {
-    /* float: left; */
     width: 80%;
+    height: 400px;
 
 }
 
@@ -46,5 +46,18 @@
 
 ul, ol {
     padding: 0;
-    margin: 0 0 10px 0px;
+    margin: 0 0 0px 0px;
+}
+
+.editor-preview-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.editor-preview {
+    /* height:300px;
+    border: "1px solid #d1d1d1" !important;
+    overflow: "scroll" !important; */
 }

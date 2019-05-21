@@ -6,7 +6,7 @@ class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      height: "400px"
+      height: "75%"
     };
   }
 
@@ -16,11 +16,11 @@ class Editor extends React.Component {
     const previewDivStyle = {
       height,
       border: "1px solid #d1d1d1",
-      overflow: "scroll"
+      overflow: "auto"
     };
 
     return (
-      <div className="col-md-12 col-sm-12 col-xs-12">
+      <div className="col-md-12 col-sm-12 col-xs-12 editor-preview-wrapper">
         {editMode ? (
           <div className="col-md-10 col-sm-10 col-xs-12">
             <CKEditor
