@@ -12,6 +12,7 @@ export default class Editor extends React.Component {
       height: "400px"
     };
   }
+
   onChange = evt => {
     this.setState({
       edited: true
@@ -22,19 +23,20 @@ export default class Editor extends React.Component {
       this.props.data.changedContent = evt.editor
         .getData()
         .replace("<p>", "")
-        .replace("</p>", ""); //evt.editor.document.getBody().getText();
+        .replace("</p>", ""); // evt.editor.document.getBody().getText();
       /* // For PUSH, SMS and MAIL_SUBJECT content should be plain and thymeleaf tags are in html, logic to handle the CKEditor formating
             var dynamicParams = newContent.match(/\$\{([^}]+)\}/gmi);
             var i;
             for (i=0;i<dynamicParams.length;i++) {
                 //  var field = dynamicParams[i].substring(2, dynamicParams[i].length-1)
                 newContent = newContent.replace(dynamicParams[i], '<span th:text="'+dynamicParams[i]+'">'+dynamicParams[i]+'<span>');
-            }*/
+            } */
     }
-    //this.props.data.changed = true;
+    // this.props.data.changed = true;
     // AlertTemplateResourceStore.updateTemplateResource(this.props.data)
   };
 
+  // eslint-disable-next-line react/sort-comp
   render() {
     const previewDivStyle = {
       height: this.state.height,

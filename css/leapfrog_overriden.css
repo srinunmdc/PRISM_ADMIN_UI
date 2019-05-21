@@ -1476,18 +1476,6 @@ body * { visibility: hidden; margin: none; padding: none; }
     vertical-align: middle;
 }
 
-.table>tbody>tr>td {
-	padding: 17px 0px;
-}
-.table>tbody>tr>td:first-child {
-	padding: 17px 5px;
-}
-.table>thead>th {
-	padding: 10px 0px;
-}
-.table>thead>th:first-child {
-	padding: 10px 5px;
-}
 .ad-search-pannel .col-md-3{
 	padding-left: 0px;
 	padding-right: 15px;
@@ -1544,3 +1532,27 @@ body{
     bottom: -20px;
     margin-left: -20px; */
 }
+
+/*Bootstrap override css*/
+.table{
+	border-top: 0px;
+}
+.table tr td{
+	border: 0px !important;
+}
+.table thead{
+	border-bottom: 3px solid #333333 !important;
+}
+.table>tbody>tr>td {
+	padding: 17px 0px;
+}
+.table>tbody>tr>td:first-child {
+	padding: 17px 5px;
+}
+.table>thead>th {
+	padding: 10px 0px;
+}
+.table>thead>th:first-child {
+	padding: 10px 5px;
+}
+/*Bootstrap override css end*/
