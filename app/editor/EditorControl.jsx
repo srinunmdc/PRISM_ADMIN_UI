@@ -17,7 +17,7 @@ class EditorConrol extends React.Component {
       onClickEdit
     } = this.props;
     return (
-      <div className="col-md-12 col-sm-12 col-xs-12">
+      <div className="col-md-12 col-sm-12 col-xs-12 button-panel">
         {data.state && data.state === "DRAFT" && edited === false ? (
           <div>
             <div className="col-xs-2 pull-right">
