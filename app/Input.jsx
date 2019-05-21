@@ -6,7 +6,7 @@ export default class Input extends Component{
   }
   render(){
     return(
-      <div>
+      <div className="ad-search-type">
           {this.props.name ?
               <div className="di sm search-type">
                   <div className="remove-gray">
@@ -15,7 +15,9 @@ export default class Input extends Component{
               </div>
                   : null
           }
-          <input className="form-control input-xlg input-default" type="text" id="adSearchValue" onPaste={this.onChangeSearch.bind(this)} onChange={(e)=>this.onChangeSearch(e)} placeholder={this.props.textplaceHolder} />
+        <div className="di sm search-box">
+          <input type="text" id="adSearchValue" onPaste={this.onChangeSearch.bind(this)} onChange={(e)=>this.onChangeSearch(e)} className= "form-control sm pull-right" placeholder={this.props.textplaceHolder} />
+        </div>
       </div>
 
     );

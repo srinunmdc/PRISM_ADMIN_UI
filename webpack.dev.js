@@ -25,10 +25,5 @@ module.exports = {
 
   resolve: {
     extensions: ['.js', '.jsx', '.scss']
-  },
-
-  externals: {
-    'di-utilities': 'DI.Utilities',
-    'di-components': 'DI.Components'
   }
 };

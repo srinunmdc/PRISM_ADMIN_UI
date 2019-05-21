@@ -28,14 +28,14 @@ export default class DropDown extends Component{
           this.setState({default: this.props.default});
       }*/
     return(
-      <div className="di dropdown" style={{width: `${this.props.width}%`}} onClick={this.statusDropdownToggle.bind(this)}>
-        <div className="dropdown-control on-gray">
+      <div className="di dropdown sm ">
+        <div className="dropdown-control" onClick={this.statusDropdownToggle.bind(this)}>
           <div className="Dropdown-placeholder">
             {
               this.props.default
             }
           </div>
-          <span className="caret"></span>
+          <span className="Dropdown-arrow"></span>
         </div>
         {
           this.state.stDropdown
