@@ -55,4 +55,9 @@ export default class AlertManagementService {
       }
     );
   }
+
+  static loadPermissions() {
+    const commonUrlLocal = dashboard.loadPermissions;
+    return axios.post(commonUrlLocal);
+  }
 }

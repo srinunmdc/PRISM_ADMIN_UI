@@ -1,8 +1,9 @@
 "use strict";
+
 import AlertManagementService from "./AlertManagementService";
 import AlertPermissionResourceStore from "../store/AlertPermissionStore";
 
-let _data = {
+const _data = {
   PERMISSION_DTO:
     '{"administrator":true,"editor":true,"viewer":false,"role":"Administrator"}'
 };
