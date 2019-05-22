@@ -58,7 +58,7 @@ class ResultTable extends React.Component {
       { label: "Description", value: "description" },
       { label: "", value: "" }
     ];
-    let hidden = { visibility: "hidden" };
+    const hidden = { opacity: 0.5 };
     const { alertTypeStore } = this.props;
     const { collapseID } = this.state;
     return (
@@ -71,10 +71,12 @@ class ResultTable extends React.Component {
                 alertTypeStore.filteredAlertTypes,
                 this.state.sortKey,
                 this.state.sortOrder
-              ).map(obj => {
+              ).map((obj, index) => {
+                const classs =
+                  index % 2 === 0 ? "not-accordian-even" : "not-accordian-odd";
                 return (
                   <React.Fragment>
-                    <tr className="not-collapsible">
+                    <tr className={classs}>
                       <td>{obj.alertTypeName}</td>
                       <td>{obj.platform}</td>
                       <td>{obj.vendor}</td>
@@ -114,7 +116,10 @@ class ResultTable extends React.Component {
                     {collapseID === obj.alertTypeId && (
                       <tr>
                         <td colSpan="6" style={{ padding: 0 }}>
-                          <div id={`accordion_${obj.alertTypeId}`}>
+                          <div
+                            id={`accordion_${obj.alertTypeId}`}
+                            className="accordian-border"
+                          >
                             <EditorTabs />
                           </div>
                         </td>

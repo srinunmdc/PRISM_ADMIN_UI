@@ -37,6 +37,11 @@ export default class AlertManagementService {
     );
   }
 
+  static loadPermissions() {
+    const commonUrlLocal = dashboard.getAlertTypeRecords;
+    return axios.post(commonUrlLocal);
+  }
+
   static deleteTemplate(template) {
     const commonUrlLocal = dashboard.deleteTemplate;
     return axios.post(
