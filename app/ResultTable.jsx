@@ -74,7 +74,7 @@ class ResultTable extends React.Component {
               ).map(obj => {
                 return (
                   <React.Fragment>
-                    <tr>
+                    <tr className="not-collapsible">
                       <td>{obj.alertTypeName}</td>
                       <td>{obj.platform}</td>
                       <td>{obj.vendor}</td>

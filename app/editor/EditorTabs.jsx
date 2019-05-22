@@ -79,6 +79,7 @@ class EditorTabs extends React.Component {
     });
     // data.templateContent = data.changedContent;
     data.templateContent = content;
+    debugger;
     AlertTemplateService.saveTemplate(data);
     this.setState({
       edited: false

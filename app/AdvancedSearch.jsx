@@ -73,7 +73,7 @@ class AdvancedSearch extends Component {
   render() {
     const { alertTypeStore } = this.props;
     const filterData =
-      "<h3>Why did I get this page?</h3><span>Common reasons include:</span><ul class='margin-left-20'><li>You recently cleared your cookies <a href='#' target='blank'>Learn more</a></li><li>You are browsing in private ir incognito mode</li><li>You are using a different browser from the one you set last time</li><li>You knowingly or unknowningly asked to skip this extra security step</li></ul>";
+      "<h3>What does this do?</h3><ul class='margin-left-20'><li>Filters messages <a href='#' target='blank'>Learn more</a></li><li>Filter alert types</li></ul>";
     return (
       <React.Fragment>
         <div className="row">
