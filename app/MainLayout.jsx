@@ -6,12 +6,14 @@ import LoadingOverlay from "react-loading-overlay";
 import AdvancedSearch from "./AdvancedSearch";
 import ResultTable from "./ResultTable";
 import AlertTypeService from "./service/AlertTypeService";
+import AlertPermissionsService from "./service/AlertPermissionsService";
 
 @inject("loaderStore")
 @observer
 class MainLayout extends Component {
   componentDidMount() {
     AlertTypeService.loadAlertTypeResources();
+    AlertPermissionsService.loadPermissions();
   }
 
   onSuccess(response) {
