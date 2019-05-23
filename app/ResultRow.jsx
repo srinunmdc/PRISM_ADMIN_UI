@@ -13,7 +13,7 @@ class ResultRow extends React.Component {
     super(props);
     this.state = {
       edited: false,
-      editMode: {}
+      editMode: false
     };
   }
 
@@ -51,12 +51,12 @@ class ResultRow extends React.Component {
         .replace("<p>", "")
         .replace("</p>", ""); // evt.editor.document.getBody().getText();
       /* // For PUSH, SMS and MAIL_SUBJECT content should be plain and thymeleaf tags are in html, logic to handle the CKEditor formating
-            var dynamicParams = newContent.match(/\$\{([^}]+)\}/gmi);
-            var i;
-            for (i=0;i<dynamicParams.length;i++) {
-                //  var field = dynamicParams[i].substring(2, dynamicParams[i].length-1)
-                newContent = newContent.replace(dynamicParams[i], '<span th:text="'+dynamicParams[i]+'">'+dynamicParams[i]+'<span>');
-            } */
+    var dynamicParams = newContent.match(/\$\{([^}]+)\}/gmi);
+    var i;
+    for (i=0;i<dynamicParams.length;i++) {
+    // var field = dynamicParams[i].substring(2, dynamicParams[i].length-1)
+    newContent = newContent.replace(dynamicParams[i], '<span th:text="'+dynamicParams[i]+'">'+dynamicParams[i]+'<span>');
+    } */
     }
     // this.props.data.changed = true;
     // AlertTemplateResourceStore.updateTemplateResource(this.props.data)
@@ -92,14 +92,11 @@ class ResultRow extends React.Component {
   };
 
   onClickEdit = () => {
-    const { loaderStore, alertTemplateStore } = this.props;
+    const { loaderStore } = this.props;
     loaderStore.loadingStart();
-    const activeTab = alertTemplateStore.templateContentTypes.selected;
-    const { editMode } = this.state;
-    editMode[activeTab] = true;
     this.setState(
       {
-        editMode
+        editMode: true
       },
       () => {
         loaderStore.loadingComplete();
@@ -108,12 +105,8 @@ class ResultRow extends React.Component {
   };
 
   onPreview = () => {
-    const { alertTemplateStore } = this.props;
-    const activeTab = alertTemplateStore.templateContentTypes.selected;
-    const { editMode } = this.state;
-    editMode[activeTab] = false;
     this.setState({
-      editMode
+      editMode: false
     });
   };
 
@@ -139,11 +132,9 @@ class ResultRow extends React.Component {
         data = element;
       }
     });
-    const { editMode } = this.state;
-    editMode[activeTab] = false;
     this.setState({
       edited: false,
-      editMode
+      editMode: false
     });
     data.changedContent = data.templateContent;
   };
@@ -158,10 +149,8 @@ class ResultRow extends React.Component {
       }
     });
     console.log("Deleting Template");
-    const { editMode } = this.state;
-    editMode[activeTab] = false;
     this.setState({
-      editMode
+      editMode: false
     });
     AlertTemplateService.deleteTemplate(data);
   };
