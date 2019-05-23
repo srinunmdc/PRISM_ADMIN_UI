@@ -15,16 +15,24 @@ class ResultTable extends React.Component {
       alertType: "",
       collapseID: "",
       mode: "EDIT",
+      collapseID: "",
       sortOrder: "asc",
       sortKey: ""
     };
     this.sortFields = this.sortFields.bind(this);
+    this.setCollapseId = this.setCollapseId.bind(this);
   }
 
   sortFields(sortKey, sortOrder) {
     this.setState({
       sortKey,
       sortOrder
+    });
+  }
+
+  setCollapseId(id) {
+    this.setState({
+      collapseID: id
     });
   }
 
@@ -51,7 +59,14 @@ class ResultTable extends React.Component {
                     index % 2 === 0
                       ? "not-accordian-even"
                       : "not-accordian-odd";
-                  return <ResultRow alertTypeObj={obj} classs={classs} />;
+                  return (
+                    <ResultRow
+                      alertTypeObj={obj}
+                      classs={classs}
+                      setCollapseId={this.setCollapseId}
+                      collapseID={this.state.collapseID}
+                    />
+                  );
                 }
               )
             : null}

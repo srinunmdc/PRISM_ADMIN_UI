@@ -115,7 +115,11 @@ ul, ol {
 	display: flex;
 	align-items: center;
 }
-/*General classes*/
+
+.margin-left-20{
+    margin-left: 20px;
+}
+/*General classes end*/
 
 
 /*tooltip*/

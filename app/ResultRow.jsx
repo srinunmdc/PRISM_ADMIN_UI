@@ -12,21 +12,21 @@ class ResultRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapseID: "",
       edited: false,
       editMode: {}
     };
   }
 
   expandAccordian = alertTypeResource => {
-    const { collapseID } = this.state;
+    const { collapseID } = this.props;
+    const { setCollapseId } = this.props;
     AlertTemplateResourceStore.resetStore();
 
     if (collapseID === alertTypeResource.alertTypeId) {
-      this.setState({ collapseID: "" });
+      setCollapseId("");
     } else {
       AlertTemplateService.loadAlertTemplatesResources(alertTypeResource);
-      this.setState({ collapseID: alertTypeResource.alertTypeId });
+      setCollapseId(alertTypeResource.alertTypeId);
     }
   };
 
@@ -167,8 +167,8 @@ class ResultRow extends React.Component {
   };
 
   render() {
-    const { alertTypeObj } = this.props;
-    const { collapseID, editMode, edited } = this.state;
+    const { alertTypeObj, collapseID } = this.props;
+    const { editMode, edited } = this.state;
     const hidden = { opacity: 0.5 };
 
     return (
