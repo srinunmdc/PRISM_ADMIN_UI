@@ -1,25 +1,21 @@
-'use strict'
-import { observable, action, configure, toJS } from 'mobx';
-configure({ enforceActions: 'observed' });
+"use strict";
+import { observable, action, configure } from "mobx";
+
+configure({ enforceActions: "observed" });
 
 class AlertPermissionStore {
-    @observable permissions = {};
+  @observable permissions = {};
 
-    @action
-    setPermissions = (permissions) => {
-        if (permissions) {
-            this.permissions = permissions
-
-        }
-
+  @action
+  setPermissions = permissions => {
+    if (permissions) {
+      this.permissions = permissions;
     }
+  };
 
-
-    resetStore = () => {
-        this.permissions = {};
-
-    };
-
+  resetStore = () => {
+    this.permissions = {};
+  };
 }
 const AlertPermissionResourceStore = new AlertPermissionStore();
 export default AlertPermissionResourceStore;

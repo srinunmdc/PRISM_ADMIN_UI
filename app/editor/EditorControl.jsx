@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { inject } from "mobx-react";
 
-@inject("loaderStore")
+@inject("alertPermissionStore")
 class EditorConrol extends React.Component {
   render() {
     const {
@@ -14,11 +14,16 @@ class EditorConrol extends React.Component {
       onDraft,
       onCancel,
       onPreview,
-      onClickEdit
+      onClickEdit,
+      alertPermissionStore
     } = this.props;
+
     return (
       <div className="col-md-12 col-sm-12 col-xs-12 button-panel">
-        {data.state && data.state === "DRAFT" && edited === false ? (
+        {alertPermissionStore.permissions.role === "Administrator" &&
+        data.state &&
+        data.state === "DRAFT" &&
+        edited === false ? (
           <div>
             <div className="col-xs-2 pull-right">
               <button
