@@ -64,8 +64,8 @@ ul, ol {
 
 .button-panel{
 	padding: 30px 0px;
-    border-bottom: 3px solid #EDEDED;
-	border-top: 1px solid #CCC;
+    /* border-bottom: 3px solid #EDEDED;
+	border-top: 1px solid #CCC; */
 	text-align: right;
 }
 .accordian-border{

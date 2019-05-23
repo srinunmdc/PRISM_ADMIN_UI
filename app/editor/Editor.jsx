@@ -1,8 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { inject } from "mobx-react";
 import CKEditor from "./NewCKEditor";
 import replaceDynamicVariable from "../util/replaceDynamicVariable";
+import EditorControl from "./EditorControl";
 
+@inject("alertPermissionStore")
 class Editor extends React.Component {
   constructor(props) {
     super(props);
@@ -19,7 +22,15 @@ class Editor extends React.Component {
       editMode,
       onChange,
       activeTab,
-      dynamicVariables
+      dynamicVariables,
+      edited,
+      onPublish,
+      onReject,
+      onDraft,
+      onCancel,
+      onPreview,
+      onClickEdit,
+      alertPermissionStore
     } = this.props;
     const previewDivStyle = {
       height,
@@ -74,6 +85,20 @@ class Editor extends React.Component {
               />
             </div>
           </React.Fragment>
+        )}
+        {(alertPermissionStore.permissions.role === "Administrator" ||
+          alertPermissionStore.permissions.role === "Editor") && (
+          <EditorControl
+            data={data}
+            edited={edited}
+            editMode={editMode}
+            onPublish={onPublish}
+            onReject={onReject}
+            onDraft={onDraft}
+            onCancel={onCancel}
+            onPreview={onPreview}
+            onClickEdit={onClickEdit}
+          />
         )}
       </div>
     );
