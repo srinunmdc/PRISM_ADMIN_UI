@@ -1,46 +1,39 @@
-import React from 'react';
+import React from "react";
 import AlertTypeStore from "./store/AlertTypeStore";
-import EditorTabs from './editor/EditorTabs';
-import connectToStores from 'alt/utils/connectToStores';
+import EditorTabs from "./editor/EditorTabs";
+import connectToStores from "alt/utils/connectToStores";
 class EditTemplate extends React.Component {
-    constructor(props){
-        super(props);
+  constructor(props) {
+    super(props);
+  }
 
-    }
+  onSave() {
+    this.props.history.push("/");
+  }
 
-    onSave(){
-        this.props.history.push('/');
-    }
+  cancel() {
+    this.props.history.push("/");
+  }
 
-    cancel(){
-        this.props.history.push('/');
-    }
+  render() {
+    return (
+      <div>
+        {this.props.templates.templates ? (
+          <EditorTabs
+            templates={this.props.templates.templates}
+            onSave={this.onSave.bind(this)}
+          />
+        ) : null}
+      </div>
+    );
+  }
 
-    render() {
-        return (
-            <div>
-            {
-                this.props.templates.templates
-                    ?
-                    <EditorTabs
-                                templates= {this.props.templates.templates}
-                                onSave={this.onSave.bind(this)}
-                    />
+  static getStores() {
+    return [AlertTypeStore];
+  }
 
-                    :null
-            }
-            </div>
-
-        );
-    }
-
-    static getStores() {
-        return [AlertTypeStore];
-    }
-
-    static getPropsFromStores () {
-        return { templates: AlertTypeStore.getState() };
-    }
-
+  static getPropsFromStores() {
+    return { templates: AlertTypeStore.getState() };
+  }
 }
 export default connectToStores(EditTemplate);

@@ -12,21 +12,21 @@ class ResultRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapseID: "",
       edited: false,
-      editMode: false
+      editMode: {}
     };
   }
 
   expandAccordian = alertTypeResource => {
-    const { collapseID } = this.state;
+    const { collapseID } = this.props;
+    const { setCollapseId } = this.props;
     AlertTemplateResourceStore.resetStore();
 
     if (collapseID === alertTypeResource.alertTypeId) {
-      this.setState({ collapseID: "" });
+      setCollapseId("");
     } else {
       AlertTemplateService.loadAlertTemplatesResources(alertTypeResource);
-      this.setState({ collapseID: alertTypeResource.alertTypeId });
+      setCollapseId(alertTypeResource.alertTypeId);
     }
   };
 
@@ -92,11 +92,14 @@ class ResultRow extends React.Component {
   };
 
   onClickEdit = () => {
-    const { loaderStore } = this.props;
+    const { loaderStore, alertTemplateStore } = this.props;
     loaderStore.loadingStart();
+    const activeTab = alertTemplateStore.templateContentTypes.selected;
+    const { editMode } = this.state;
+    editMode[activeTab] = true;
     this.setState(
       {
-        editMode: true
+        editMode
       },
       () => {
         loaderStore.loadingComplete();
@@ -105,8 +108,12 @@ class ResultRow extends React.Component {
   };
 
   onPreview = () => {
+    const { alertTemplateStore } = this.props;
+    const activeTab = alertTemplateStore.templateContentTypes.selected;
+    const { editMode } = this.state;
+    editMode[activeTab] = false;
     this.setState({
-      editMode: false
+      editMode
     });
   };
 
@@ -132,9 +139,11 @@ class ResultRow extends React.Component {
         data = element;
       }
     });
+    const { editMode } = this.state;
+    editMode[activeTab] = false;
     this.setState({
       edited: false,
-      editMode: false
+      editMode
     });
     data.changedContent = data.templateContent;
   };
@@ -149,20 +158,22 @@ class ResultRow extends React.Component {
       }
     });
     console.log("Deleting Template");
+    const { editMode } = this.state;
+    editMode[activeTab] = false;
     this.setState({
-      editMode: false
+      editMode
     });
     AlertTemplateService.deleteTemplate(data);
   };
 
   render() {
-    const { alertTypeObj } = this.props;
-    const { collapseID, editMode, edited } = this.state;
-    const hidden = { visibility: "hidden" };
+    const { alertTypeObj, collapseID } = this.props;
+    const { editMode, edited } = this.state;
+    const hidden = { opacity: 0.5 };
 
     return (
       <React.Fragment>
-        <tr>
+        <tr className={this.props.classs}>
           <td>{alertTypeObj.alertTypeName}</td>
           <td>{alertTypeObj.platform}</td>
           <td>{alertTypeObj.vendor}</td>
@@ -196,7 +207,10 @@ class ResultRow extends React.Component {
         {collapseID === alertTypeObj.alertTypeId && (
           <tr>
             <td colSpan="6" style={{ padding: 0 }}>
-              <div id={`accordion_${alertTypeObj.alertTypeId}`}>
+              <div
+                id={`accordion_${alertTypeObj.alertTypeId}`}
+                className="accordian-border"
+              >
                 <EditorTabs
                   editMode={editMode}
                   edited={edited}
