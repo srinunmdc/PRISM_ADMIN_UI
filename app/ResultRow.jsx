@@ -12,9 +12,10 @@ class ResultRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      edited: false,
-      editMode: false
+      edited: {},
+      editMode: {}
     };
+    this.onClickEdit = this.onClickEdit.bind(this);
   }
 
   expandAccordian = alertTypeResource => {
@@ -39,9 +40,9 @@ class ResultRow extends React.Component {
         data = element;
       }
     });
-
+    const { edited } = this.state;
     this.setState({
-      edited: true
+      edited: { ...edited, [activeTab]: true }
     });
     if (data.templateContentType === "EMAIL_BODY") {
       data.changedContent = evt.editor.getData();
@@ -64,6 +65,7 @@ class ResultRow extends React.Component {
 
   onDraft = () => {
     const { alertTemplateStore } = this.props;
+    const { edited } = this.props;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     console.log("Saving Templates");
     let data;
@@ -87,16 +89,19 @@ class ResultRow extends React.Component {
     data.templateContent = content;
     AlertTemplateService.saveTemplate(data);
     this.setState({
-      edited: false
+      edited: { ...edited, [activeTab]: false }
     });
   };
 
   onClickEdit = () => {
-    const { loaderStore } = this.props;
+    const { loaderStore, alertTemplateStore } = this.props;
+    const activeTab = alertTemplateStore.templateContentTypes.selected;
     loaderStore.loadingStart();
+    const edit = this.state.editMode;
+    edit[activeTab] = true;
     this.setState(
       {
-        editMode: true
+        editMode: { ...edit }
       },
       () => {
         loaderStore.loadingComplete();
@@ -105,8 +110,12 @@ class ResultRow extends React.Component {
   };
 
   onPreview = () => {
+    const { alertTemplateStore } = this.props;
+    const activeTab = alertTemplateStore.templateContentTypes.selected;
+    const edit = this.state.editMode;
+    edit[activeTab] = false;
     this.setState({
-      editMode: false
+      editMode: { ...edit }
     });
   };
 
@@ -124,6 +133,7 @@ class ResultRow extends React.Component {
   };
 
   onCancel = () => {
+    const { edited } = this.props;
     const { alertTemplateStore } = this.props;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     let data;
@@ -132,9 +142,11 @@ class ResultRow extends React.Component {
         data = element;
       }
     });
+    const edit = this.state.editMode;
+    edit[activeTab] = false;
     this.setState({
-      edited: false,
-      editMode: false
+      edited: { ...edited, [activeTab]: false },
+      editMode: { ...edit }
     });
     data.changedContent = data.templateContent;
   };
@@ -149,8 +161,10 @@ class ResultRow extends React.Component {
       }
     });
     console.log("Deleting Template");
+    const edit = this.state.editMode;
+    edit[activeTab] = false;
     this.setState({
-      editMode: false
+      editMode: { ...edit }
     });
     AlertTemplateService.deleteTemplate(data);
   };
@@ -159,7 +173,7 @@ class ResultRow extends React.Component {
     const { alertTypeObj, collapseID } = this.props;
     const { editMode, edited } = this.state;
     const hidden = { opacity: 0.5 };
-
+    console.log("first", editMode);
     return (
       <React.Fragment>
         <tr className={this.props.classs}>

@@ -47,7 +47,7 @@ class Editor extends React.Component {
     const finalRemove = commonRemove + extra;
     return (
       <div className="col-md-12 col-sm-12 col-xs-12 editor-preview-wrapper">
-        {editMode ? (
+        {editMode[activeTab] ? (
           <div className="col-md-10 col-sm-10 col-xs-12">
             <CKEditor
               activeClass="p10"
@@ -92,6 +92,7 @@ class Editor extends React.Component {
             data={data}
             edited={edited}
             editMode={editMode}
+            activeTab={activeTab}
             onPublish={onPublish}
             onReject={onReject}
             onDraft={onDraft}

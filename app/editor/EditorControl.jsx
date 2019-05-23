@@ -9,6 +9,7 @@ class EditorConrol extends React.Component {
       data,
       edited,
       editMode,
+      activeTab,
       onPublish,
       onReject,
       onDraft,
@@ -23,7 +24,7 @@ class EditorConrol extends React.Component {
         {alertPermissionStore.permissions.role === "Administrator" &&
         data.state &&
         data.state === "DRAFT" &&
-        edited === false ? (
+        edited[activeTab] === false ? (
           <div>
             <div className="col-xs-2 pull-right">
               <button
@@ -45,7 +46,7 @@ class EditorConrol extends React.Component {
             </div>
           </div>
         ) : null}
-        {edited ? (
+        {edited[activeTab] ? (
           <div>
             <div className="col-xs-2 pull-right">
               <button
@@ -67,7 +68,7 @@ class EditorConrol extends React.Component {
             </div>
           </div>
         ) : null}
-        {editMode ? (
+        {editMode[activeTab] ? (
           <div className="col-xs-2 pull-right">
             <button
               type="button"
@@ -96,6 +97,7 @@ class EditorConrol extends React.Component {
 EditorConrol.propTypes = {
   data: PropTypes.object.isRequired,
   edited: PropTypes.bool.isRequired,
+  activeTab: PropTypes.string.isRequired,
   editMode: PropTypes.bool.isRequired,
   onPublish: PropTypes.func.isRequired,
   onReject: PropTypes.func.isRequired,
