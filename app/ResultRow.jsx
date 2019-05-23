@@ -14,7 +14,7 @@ class ResultRow extends React.Component {
     this.state = {
       collapseID: "",
       edited: false,
-      editMode: false
+      editMode: {}
     };
   }
 
@@ -92,11 +92,14 @@ class ResultRow extends React.Component {
   };
 
   onClickEdit = () => {
-    const { loaderStore } = this.props;
+    const { loaderStore, alertTemplateStore } = this.props;
     loaderStore.loadingStart();
+    const activeTab = alertTemplateStore.templateContentTypes.selected;
+    const { editMode } = this.state;
+    editMode[activeTab] = true;
     this.setState(
       {
-        editMode: true
+        editMode
       },
       () => {
         loaderStore.loadingComplete();
@@ -105,8 +108,12 @@ class ResultRow extends React.Component {
   };
 
   onPreview = () => {
+    const { alertTemplateStore } = this.props;
+    const activeTab = alertTemplateStore.templateContentTypes.selected;
+    const { editMode } = this.state;
+    editMode[activeTab] = false;
     this.setState({
-      editMode: false
+      editMode
     });
   };
 
@@ -132,9 +139,11 @@ class ResultRow extends React.Component {
         data = element;
       }
     });
+    const { editMode } = this.state;
+    editMode[activeTab] = false;
     this.setState({
       edited: false,
-      editMode: false
+      editMode
     });
     data.changedContent = data.templateContent;
   };
@@ -149,8 +158,10 @@ class ResultRow extends React.Component {
       }
     });
     console.log("Deleting Template");
+    const { editMode } = this.state;
+    editMode[activeTab] = false;
     this.setState({
-      editMode: false
+      editMode
     });
     AlertTemplateService.deleteTemplate(data);
   };
