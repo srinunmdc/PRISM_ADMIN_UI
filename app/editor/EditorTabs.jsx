@@ -28,56 +28,45 @@ class EditorTabs extends React.Component {
     } = this.props;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     return (
-      <React.Fragment>
-        <div className="tabs">
-          <ul className="tab-list">
-            {alertTemplateStore.templateContentTypes.options &&
-              alertTemplateStore.templateContentTypes.options.map(element => {
-                const label = element;
+      <div className="tabs">
+        <ul className="tab-list">
+          {alertTemplateStore.templateContentTypes.options &&
+            alertTemplateStore.templateContentTypes.options.map(element => {
+              const label = element;
 
-                return (
-                  <Tab
-                    activeTab={activeTab}
-                    key={label}
-                    label={label}
-                    onClick={this.onClickTabItem.bind(this)}
-                  />
-                );
-              })}
-          </ul>
-
-          <div className="tab-content">
-            {alertTemplateStore.alertTemplates.map(element => {
-              if (element.templateContentType !== activeTab) return undefined;
               return (
-                <Editor
-                  data={element}
-                  editMode={editMode}
-                  onChange={onChange}
+                <Tab
                   activeTab={activeTab}
-                  dynamicVariables={alertTemplateStore.dynamicVariables}
+                  key={label}
+                  label={label}
+                  onClick={this.onClickTabItem.bind(this)}
                 />
               );
             })}
-          </div>
+        </ul>
+
+        <div className="tab-content">
+          {alertTemplateStore.alertTemplates.map(element => {
+            if (element.templateContentType !== activeTab) return undefined;
+            return (
+              <Editor
+                data={element}
+                editMode={editMode}
+                onChange={onChange}
+                activeTab={activeTab}
+                dynamicVariables={alertTemplateStore.dynamicVariables}
+                edited={edited}
+                onPublish={onPublish}
+                onReject={onReject}
+                onDraft={onDraft}
+                onCancel={onCancel}
+                onPreview={onPreview}
+                onClickEdit={onClickEdit}
+              />
+            );
+          })}
         </div>
-        {alertTemplateStore.alertTemplates.map(element => {
-          if (element.templateContentType !== activeTab) return undefined;
-          return (
-            <EditorControl
-              data={element}
-              edited={edited}
-              editMode={editMode}
-              onPublish={onPublish}
-              onReject={onReject}
-              onDraft={onDraft}
-              onCancel={onCancel}
-              onPreview={onPreview}
-              onClickEdit={onClickEdit}
-            />
-          );
-        })}
-      </React.Fragment>
+      </div>
     );
   }
 }

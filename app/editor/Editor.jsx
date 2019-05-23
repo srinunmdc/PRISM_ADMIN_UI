@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import CKEditor from "./NewCKEditor";
 import replaceDynamicVariable from "../util/replaceDynamicVariable";
+import EditorControl from "./EditorControl";
 
 class Editor extends React.Component {
   constructor(props) {
@@ -19,7 +20,14 @@ class Editor extends React.Component {
       editMode,
       onChange,
       activeTab,
-      dynamicVariables
+      dynamicVariables,
+      edited,
+      onPublish,
+      onReject,
+      onDraft,
+      onCancel,
+      onPreview,
+      onClickEdit
     } = this.props;
     const previewDivStyle = {
       height,
@@ -75,6 +83,17 @@ class Editor extends React.Component {
             </div>
           </React.Fragment>
         )}
+        <EditorControl
+          data={data}
+          edited={edited}
+          editMode={editMode}
+          onPublish={onPublish}
+          onReject={onReject}
+          onDraft={onDraft}
+          onCancel={onCancel}
+          onPreview={onPreview}
+          onClickEdit={onClickEdit}
+        />
       </div>
     );
   }
