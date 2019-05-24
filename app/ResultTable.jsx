@@ -172,8 +172,8 @@ class ResultTable extends React.Component {
   };
 
   onCancel = () => {
-    const { alertTemplateStore, edited } = this.props;
-    const { editMode } = this.state;
+    const { alertTemplateStore } = this.props;
+    const { editMode, edited } = this.state;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     let data;
     alertTemplateStore.alertTemplates.forEach(element => {
@@ -222,10 +222,11 @@ class ResultTable extends React.Component {
     return (
       <React.Fragment>
         <tr className={accordianEvenOdd}>
-          <td>{obj.alertTypeName}</td>
-          <td>{obj.platform}</td>
-          <td>{obj.vendor}</td>
-          <td>
+          <td className="col-xs-2">{obj.alertTypeName}</td>
+          <td className="col-xs-3">{obj.description}</td>
+          <td className="col-xs-2">{obj.platform}</td>
+          <td className="col-xs-2">{obj.vendor}</td>
+          <td className="col-xs-2">
             <span
               className="glyphicon glyphicon-envelope icon-margin"
               style={obj.deliveryTypes.includes("EMAIL") ? {} : hidden}
@@ -239,9 +240,7 @@ class ResultTable extends React.Component {
               style={obj.deliveryTypes.includes("PUSH") ? {} : hidden}
             />
           </td>
-
-          <td>{obj.description}</td>
-          <td>
+          <td style={{ textAlign: "right" }} className="col-xs-1">
             <span
               className={
                 collapseID === obj.alertTypeId
@@ -249,6 +248,7 @@ class ResultTable extends React.Component {
                   : "glyphicon glyphicon-menu-down"
               }
               onClick={() => this.expandAccordian(obj)}
+              style={{ padding: "0px 10px"}}
             />
           </td>
         </tr>
@@ -280,19 +280,19 @@ class ResultTable extends React.Component {
 
   render() {
     const columns = [
-      { label: "Alert Type", value: "alertTypeName" },
-      { label: "Platform", value: "platform" },
-      { label: "Alert Source", value: "vendor" },
-      { label: "Delivery Type", value: "" },
-      { label: "Description", value: "description" },
-      { label: "", value: "" }
+      { label: "Alert Type", value: "alertTypeName", column: "col-xs-2" },
+      { label: "Description", value: "description", column: "col-xs-3" },
+      { label: "Platform", value: "platform", column: "col-xs-2" },
+      { label: "Alert Source", value: "vendor", column: "col-xs-2" },
+      { label: "Delivery Type", value: "", column: "col-xs-2" },
+      { label: "", value: "", column: "col-xs-1" }
     ];
     const { alertTypeStore } = this.props;
     const { sortKey, sortOrder, edited, confirmModalShow } = this.state;
     const confirmModalContent = Object.keys(edited).join(", ");
     return (
       <React.Fragment>
-        <table className="table table-striped">
+        <table className="table table-striped row">
           <Thead columns={columns} sort={this.sortFields} />
 
           <tbody>

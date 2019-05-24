@@ -18,7 +18,6 @@ class EditorConrol extends React.Component {
       onClickEdit,
       alertPermissionStore
     } = this.props;
-
     return (
       <div className="col-md-12 col-sm-12 col-xs-12 button-panel">
         {alertPermissionStore.permissions.role === "Administrator" &&
