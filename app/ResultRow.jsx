@@ -6,7 +6,7 @@ import EditorTabs from "./editor/EditorTabs";
 import AlertTemplateResourceStore from "./store/AlertTemplateStore";
 import AlertTemplateService from "./service/AlertTemplateService";
 
-@inject("alertTemplateStore", "loaderStore")
+@inject("alertTemplateStore")
 @observer
 class ResultRow extends React.Component {
   constructor(props) {
@@ -94,19 +94,13 @@ class ResultRow extends React.Component {
   };
 
   onClickEdit = () => {
-    const { loaderStore, alertTemplateStore } = this.props;
+    const { alertTemplateStore } = this.props;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
-    loaderStore.loadingStart();
     const edit = this.state.editMode;
     edit[activeTab] = true;
-    this.setState(
-      {
-        editMode: { ...edit }
-      },
-      () => {
-        loaderStore.loadingComplete();
-      }
-    );
+    this.setState({
+      editMode: { ...edit }
+    });
   };
 
   onPreview = () => {
@@ -236,7 +230,6 @@ class ResultRow extends React.Component {
 
 ResultRow.propTypes = {
   alertTemplateStore: PropTypes.object.isRequired,
-  loaderStore: PropTypes.object.isRequired,
   alertTypeObj: PropTypes.object.isRequired
 };
 
