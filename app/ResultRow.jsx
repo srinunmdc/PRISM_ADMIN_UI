@@ -5,6 +5,7 @@ import { inject, observer } from "mobx-react";
 import EditorTabs from "./editor/EditorTabs";
 import AlertTemplateResourceStore from "./store/AlertTemplateStore";
 import AlertTemplateService from "./service/AlertTemplateService";
+import ConfirmModal from "./ConfirmModal";
 
 @inject("alertTemplateStore", "loaderStore")
 @observer
@@ -13,14 +14,29 @@ class ResultRow extends React.Component {
     super(props);
     this.state = {
       edited: {},
-      editMode: {}
+      editMode: {},
+      confirmModalShow: false
     };
     this.onClickEdit = this.onClickEdit.bind(this);
   }
 
+  confirmModalCloseHandler = () => {
+    this.setState({
+      confirmModalShow: false
+    });
+  };
+
+  confirm = () => {
+    alert("Conform");
+  };
+
   expandAccordian = alertTypeResource => {
     const { collapseID } = this.props;
     const { setCollapseId } = this.props;
+    if (this.state.edited) {
+      console.log("vkjerbveb");
+      this.setState({ confirmModalShow: true });
+    }
     AlertTemplateResourceStore.resetStore();
 
     if (collapseID === alertTypeResource.alertTypeId) {
@@ -229,6 +245,12 @@ class ResultRow extends React.Component {
             </td>
           </tr>
         )}
+        <ConfirmModal
+          show={this.state.confirmModalShow}
+          close={this.confirmModalCloseHandler}
+          content="theme"
+          confirmHandler={this.confirm}
+        />
       </React.Fragment>
     );
   }
