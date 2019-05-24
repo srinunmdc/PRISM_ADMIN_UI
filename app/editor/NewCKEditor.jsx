@@ -1,9 +1,8 @@
-
-
 import React from "react";
 import ReactDOM from "react-dom";
 import loadScript from "load-script";
 import PropTypes from "prop-types";
+import { inject, observer } from "mobx-react";
 // const loadScript = require('load-script');
 
 const defaultScriptUrl = "https://cdn.ckeditor.com/4.6.2/standard/ckeditor.js";
@@ -12,6 +11,9 @@ const defaultScriptUrl = "https://cdn.ckeditor.com/4.6.2/standard/ckeditor.js";
  * @author codeslayer1
  * @description CKEditor component to render a CKEditor textarea with defined configs and all CKEditor events handler
  */
+
+@inject("alertTemplateStore", "loaderStore")
+@observer
 class CKEditor extends React.Component {
   constructor(props) {
     super(props);
@@ -28,6 +30,8 @@ class CKEditor extends React.Component {
 
   // load ckeditor script as soon as component mounts if not already loaded
   componentDidMount() {
+    const { loaderStore } = this.props;
+    loaderStore.loadingStart();
     if (!this.props.isScriptLoaded) {
       loadScript(this.props.scriptUrl, this.onLoad);
     } else {
@@ -40,6 +44,7 @@ class CKEditor extends React.Component {
   }
 
   onLoad() {
+    const { loaderStore } = this.props;
     if (this.unmounting) return;
 
     this.setState({
@@ -47,6 +52,7 @@ class CKEditor extends React.Component {
     });
 
     if (!window.CKEDITOR) {
+      loaderStore.loadingComplete();
       console.error("CKEditor not found");
       return;
     }
@@ -57,9 +63,9 @@ class CKEditor extends React.Component {
       window.CKEDITOR.plugins.add("dragFields", {
         init(editor) {
           editor.on("paste", function(evt) {
-            var content = evt.data.dataTransfer.getData("text");
+            let content = evt.data.dataTransfer.getData("text");
             evt.data.dataValue =
-              '<span th:text="' + content + '">${' + content + "}<span>";
+              `<span th:text="${  content  }">\${${  content  }}<span>`;
           });
         }
       });
@@ -76,10 +82,11 @@ class CKEditor extends React.Component {
     );
 
     // Register listener for custom events if any
-    for (let event in this.props.events) {
+    for (const event in this.props.events) {
       const eventHandler = this.props.events[event];
       this.editorInstance.on(event, eventHandler);
     }
+    loaderStore.loadingComplete();
   }
 
   render() {
