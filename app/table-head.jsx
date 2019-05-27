@@ -1,6 +1,5 @@
 import React from "react";
-import  AlertTypeResourceStore from "./store/AlertTypeStore";
-
+import AlertTypeResourceStore from "./store/AlertTypeStore";
 
 class tableHead extends React.Component {
   constructor(props) {
@@ -19,19 +18,22 @@ class tableHead extends React.Component {
     const sortOrder = !this.state.caret[index] ? "asc" : "desc";
     this.props.sort(column, sortOrder);
   }
+
   render() {
     return (
       <thead>
         {this.props.columns.map((col, i) => {
           return (
-            <th scope="col">
-              <span onClick={() => this.sort(col.value, i)}>{col.label}</span>
-              {col.value != "" && (
-                <span
-                  className={this.state.caret[i] ? "caret up" : "caret"}
-                  aria-hidden="true"
-                />
-              )}
+            <th scope="col" className={col.column}>
+              <div >
+                <span onClick={() => this.sort(col.value, i)}>{col.label}</span>
+                {col.value != "" && (
+                  <span
+                    className={this.state.caret[i] ? "caret up" : "caret"}
+                    aria-hidden="true"
+                  />
+                )}
+              </div>
             </th>
           );
         })}

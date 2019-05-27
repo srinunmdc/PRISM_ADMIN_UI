@@ -58,6 +58,7 @@ class Editor extends React.Component {
               config={{
                 language: data.locale,
                 height,
+                removePlugins: "resize",
                 toolbarCanCollapse: true,
                 allowedContent: true,
                 disableAutoInline: true,
