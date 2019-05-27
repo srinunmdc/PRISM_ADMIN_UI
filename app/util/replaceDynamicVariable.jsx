@@ -1,4 +1,7 @@
 const replaceDynamicVariable = (data, dynamicData) => {
+  if (!dynamicData) {
+    return data;
+  }
   const regex = /\${\w+\}/g;
   let match = "";
   // eslint-disable-next-line no-cond-assign

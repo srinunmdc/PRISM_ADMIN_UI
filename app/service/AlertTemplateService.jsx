@@ -2,10 +2,19 @@ import AlertManagementService from "./AlertManagementService";
 import AlertTemplateResourceStore from "../store/AlertTemplateStore";
 import LoaderResourceStore from "../store/LoaderStore";
 
+// const _data = {
+//   templates:
+//     '[{"alertTemplateResourceId":1502,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"Email Body","templateContentType":"EMAIL_BODY","locale":"en_US","state":"DRAFT", previewValues: {"accountNumber": "xxx1234", "accountType": "Savings"}},{"alertTemplateResourceId":1503,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"Low Balance Alert for","templateContentType":"EMAIL_SUBJECT","locale":"en_US", previewValues: {"accountNumber": "xxx1234", "accountType": "Savings"}},{"alertTemplateResourceId":1505,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"DEFAULT: Corelation Alert Test PUSH_BODY","templateContentType":"PUSH_BODY","locale":"en_US", previewValues: {"accountNumber": "xxx1234", "accountType": "Savings"}},{"alertTemplateResourceId":1501,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"DEFAULT: Corelation Alert Test <Span>{RandomText} </Span> SMS_BODY","templateContentType":"SMS_BODY","locale":"en_US", previewValues: null}]'
+// };
+
+// const _data = {
+//   templates:
+//     [{alertTemplateResourceId:1502,alertTypeResourceId:1502,alertTypeName:"SBU",templateContent:"Email Body",templateContentType:"EMAIL_BODY",locale:"en_US",state:"DRAFT", previewValues: {accountNumber: "xxx1234", accountType: "Savings"}},{alertTemplateResourceId: 1503, alertTypeResourceId: 1502, alertTypeName: "SBU", templateContent: "Low Balance Alert for", templateContentType: "EMAIL_SUBJECT", locale: "en_US", previewValues: {accountNumber: "xxx1234", accountType: "Savings"}},{alertTemplateResourceId: 1505, alertTypeResourceId: 1502, alertTypeName: "SBU", templateContent: "DEFAULT: Corelation Alert Test PUSH_BODY", templateContentType: "PUSH_BODY", locale: "en_US", previewValues: {accountNumber: "xxx1234", accountType: "Savings"}},{alertTemplateResourceId: 1501, alertTypeResourceId: 1502, alertTypeName: "SBU", templateContent: "DEFAULT: Corelation Alert Test <Span>{RandomText} </Span> SMS_BODY", templateContentType: "SMS_BODY", locale:"en_US", previewValues: null}]
+// };
+
 const _data = {
   templates:
-    '[{"alertTemplateResourceId":1502,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"Email Body","templateContentType":"EMAIL_BODY","locale":"en_US","state":"DRAFT"},{"alertTemplateResourceId":1503,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"Low Balance Alert for","templateContentType":"EMAIL_SUBJECT","locale":"en_US"},{"alertTemplateResourceId":1505,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"DEFAULT: Corelation Alert Test PUSH_BODY","templateContentType":"PUSH_BODY","locale":"en_US"},{"alertTemplateResourceId":1501,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"DEFAULT: Corelation Alert Test <Span>{RandomText} </Span> SMS_BODY","templateContentType":"SMS_BODY","locale":"en_US"}]',
-  dynamicVariables: '{"accountNumber": "xxx1234", "accountType": "Savings"}'
+    '[{"alertTemplateResourceId":1502,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"Email Body","templateContentType":"EMAIL_BODY","locale":"en_US","state":"DRAFT","previewValues":{"accountNumber":"xxx1234","accountType":"Savings"}},{"alertTemplateResourceId":1503,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"Low Balance Alert for","templateContentType":"EMAIL_SUBJECT","locale":"en_US","previewValues":{"accountNumber":"xxx1234","accountType":"Savings"}},{"alertTemplateResourceId":1505,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"DEFAULT: Corelation Alert Test PUSH_BODY","templateContentType":"PUSH_BODY","locale":"en_US","previewValues":{"accountNumber":"xxx1234","accountType":"Savings"}},{"alertTemplateResourceId":1501,"alertTypeResourceId":1502,"alertTypeName":"SBU","templateContent":"DEFAULT: Corelation Alert Test <Span>{RandomText} </Span> SMS_BODY","templateContentType":"SMS_BODY","locale":"en_US","previewValues":null}]'
 };
 
 export default class AlertTemplateService {
@@ -25,9 +34,9 @@ export default class AlertTemplateService {
         // for local testing only uncomment above _data variable before using below code.
         LoaderResourceStore.loadingComplete();
         AlertTemplateResourceStore.setTemplates(JSON.parse(_data.templates));
-        AlertTemplateResourceStore.setDynamicVariables(
-          JSON.parse(_data.dynamicVariables)
-        );
+        // AlertTemplateResourceStore.setDynamicVariables(
+        //   JSON.parse(_data.dynamicVariables)
+        // );
       });
   }
 
