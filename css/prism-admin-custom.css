@@ -161,3 +161,11 @@ ul, ol {
     margin-left: -20px; */
 }
 /*tooltip end*/
+
+.close {
+    text-decoration: none;
+}
+
+.alert-wrapper {
+    margin-top: 12px;
+}

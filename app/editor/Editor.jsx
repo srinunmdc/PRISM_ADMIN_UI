@@ -31,7 +31,8 @@ class Editor extends React.Component {
       onPreview,
       onClickEdit,
       alertPermissionStore,
-      showAlert
+      showAlert,
+      closeAlert
     } = this.props;
     const previewDivStyle = {
       height,
@@ -49,11 +50,13 @@ class Editor extends React.Component {
     return (
       <div className="col-md-12 col-sm-12 col-xs-12 editor-preview-wrapper">
         {showAlert && (
-          <div className="col-md-10 col-sm-10 col-xs-12">
+          <div className="col-md-10 col-sm-10 col-xs-12 alert-wrapper">
             <Alert
               alertClass="danger"
               highlightedMessage="Hightlight!"
               detailMessage="You can provide detail message here."
+              showCloseIcon
+              handleClose={closeAlert}
             />
           </div>
         )}
@@ -97,8 +100,8 @@ class Editor extends React.Component {
             </div>
           </React.Fragment>
         )}
-        {(alertPermissionStore.permissions.role === "Administrator" ||
-          alertPermissionStore.permissions.role === "Editor") && (
+        {(alertPermissionStore.permissions.role === "publish" ||
+          alertPermissionStore.permissions.role === "edit") && (
           <EditorControl
             data={data}
             edited={edited}

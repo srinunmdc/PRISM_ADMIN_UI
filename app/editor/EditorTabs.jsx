@@ -24,7 +24,8 @@ class EditorTabs extends React.Component {
       onCancel,
       onPreview,
       onClickEdit,
-      showAlert
+      showAlert,
+      closeAlert
     } = this.props;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     return (
@@ -62,6 +63,7 @@ class EditorTabs extends React.Component {
                 onPreview={onPreview}
                 onClickEdit={onClickEdit}
                 showAlert={showAlert}
+                closeAlert={closeAlert}
               />
             );
           })}
@@ -81,7 +83,9 @@ EditorTabs.propTypes = {
   onDraft: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onPreview: PropTypes.func.isRequired,
-  onClickEdit: PropTypes.func.isRequired
+  onClickEdit: PropTypes.func.isRequired,
+  showAlert: PropTypes.bool.isRequired,
+  closeAlert: PropTypes.func.isRequired
 };
 
 export default EditorTabs;

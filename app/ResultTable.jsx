@@ -39,7 +39,8 @@ class ResultTable extends React.Component {
       {
         confirmModalShow: false,
         edited: {},
-        editMode: {}
+        editMode: {},
+        showAlert: false
       },
       () => {
         this.resetTemplateStore();
@@ -199,7 +200,8 @@ class ResultTable extends React.Component {
     edit[activeTab] = false;
     this.setState({
       edited: { ...edited, [activeTab]: false },
-      editMode: { ...edit }
+      editMode: { ...edit },
+      showAlert: false
     });
     data.changedContent = data.templateContent;
   };
@@ -284,6 +286,7 @@ class ResultTable extends React.Component {
                   onPreview={this.onPreview}
                   onClickEdit={this.onClickEdit}
                   showAlert={showAlert}
+                  closeAlert={this.closeAlert}
                 />
               </div>
             </td>
@@ -291,6 +294,10 @@ class ResultTable extends React.Component {
         )}
       </React.Fragment>
     );
+  };
+
+  closeAlert = () => {
+    this.setState({ showAlert: false });
   };
 
   render() {
