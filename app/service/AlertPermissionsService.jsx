@@ -1,11 +1,8 @@
-"use strict";
-
 import AlertManagementService from "./AlertManagementService";
 import AlertPermissionResourceStore from "../store/AlertPermissionStore";
 
 const _data = {
-  PERMISSION_DTO:
-    '{"administrator":true,"editor":true,"viewer":false,"role":"Administrator"}'
+  PERMISSION_DTO: '{"publish":true,"edit":true,"view":false,"role":"publish"}'
 };
 export default class AlertPermissionsService {
   static loadPermissions() {

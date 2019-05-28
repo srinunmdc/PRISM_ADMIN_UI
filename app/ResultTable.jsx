@@ -20,7 +20,8 @@ class ResultTable extends React.Component {
       sortKey: "",
       edited: {},
       editMode: {},
-      confirmModalShow: false
+      confirmModalShow: false,
+      showAlert: false
     };
     this.sortFields = this.sortFields.bind(this);
     this.setCollapseId = this.setCollapseId.bind(this);
@@ -38,7 +39,8 @@ class ResultTable extends React.Component {
       {
         confirmModalShow: false,
         edited: {},
-        editMode: {}
+        editMode: {},
+        showAlert: false
       },
       () => {
         this.resetTemplateStore();
@@ -112,28 +114,41 @@ class ResultTable extends React.Component {
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     console.log("Saving Templates");
     let data;
+    let error;
     alertTemplateStore.alertTemplates.forEach(element => {
       if (element.templateContentType === activeTab) {
         data = element;
       }
     });
-    const regex = /\${\w+\}/g;
+    const regex = /\${\w*\}/g;
     const dynamicVariables = data.changedContent.match(regex);
-
     let content = data.changedContent;
     if (dynamicVariables) {
       dynamicVariables.forEach(dynamicVariable => {
-        content = content.replace(
-          dynamicVariable,
-          `<span th:remove="tag" th:text="${dynamicVariable}">${dynamicVariable}</span>`
+        const matchedString = dynamicVariable.substring(
+          2,
+          dynamicVariable.length - 1
         );
+        if (data.previewValues[matchedString]) {
+          content = content.replace(
+            dynamicVariable,
+            `<span th:remove="tag" th:text="${dynamicVariable}">${dynamicVariable}</span>`
+          );
+        } else {
+          error = true;
+        }
       });
     }
-    data.templateContent = content;
-    AlertTemplateService.saveTemplate(data);
-    this.setState({
-      edited: { ...edited, [activeTab]: false }
-    });
+    if (!error) {
+      data.templateContent = content;
+      AlertTemplateService.saveTemplate(data);
+      this.setState({
+        edited: { ...edited, [activeTab]: false },
+        showAlert: false
+      });
+    } else {
+      this.setState({ showAlert: true });
+    }
   };
 
   onClickEdit = () => {
@@ -185,7 +200,8 @@ class ResultTable extends React.Component {
     edit[activeTab] = false;
     this.setState({
       edited: { ...edited, [activeTab]: false },
-      editMode: { ...edit }
+      editMode: { ...edit },
+      showAlert: false
     });
     data.changedContent = data.templateContent;
   };
@@ -217,7 +233,7 @@ class ResultTable extends React.Component {
   }
 
   renderResultRow = (obj, accordianEvenOdd) => {
-    const { collapseID, editMode, edited } = this.state;
+    const { collapseID, editMode, edited, showAlert } = this.state;
     const hidden = { opacity: 0.5 };
     return (
       <React.Fragment>
@@ -248,7 +264,7 @@ class ResultTable extends React.Component {
                   : "glyphicon glyphicon-menu-down"
               }
               onClick={() => this.expandAccordian(obj)}
-              style={{ padding: "0px 10px"}}
+              style={{ padding: "0px 10px" }}
             />
           </td>
         </tr>
@@ -269,6 +285,8 @@ class ResultTable extends React.Component {
                   onCancel={this.onCancel}
                   onPreview={this.onPreview}
                   onClickEdit={this.onClickEdit}
+                  showAlert={showAlert}
+                  closeAlert={this.closeAlert}
                 />
               </div>
             </td>
@@ -276,6 +294,10 @@ class ResultTable extends React.Component {
         )}
       </React.Fragment>
     );
+  };
+
+  closeAlert = () => {
+    this.setState({ showAlert: false });
   };
 
   render() {

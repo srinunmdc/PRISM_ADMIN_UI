@@ -1,6 +1,5 @@
 "use strict";
 import { observable, action, configure, toJS } from "mobx";
-import AlertTemplateService from "../service/AlertTemplateService";
 configure({ enforceActions: "observed" });
 class AlertTemplateStore {
   @observable alertTemplates = [];
@@ -8,8 +7,6 @@ class AlertTemplateStore {
   @observable previewAlertTemplates = [];
 
   @observable templateContentTypes = {};
-
-  @observable dynamicVariables = {};
 
   @action
   setTemplates = (alertTemplateResources, isLoaded) => {
@@ -31,10 +28,6 @@ class AlertTemplateStore {
     }
   };
 
-  @action
-  setDynamicVariables = dynamicVariables => {
-    this.dynamicVariables = dynamicVariables;
-  };
 
   @action
   resetStore = () => {

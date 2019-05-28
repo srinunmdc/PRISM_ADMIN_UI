@@ -4,6 +4,7 @@ import { inject } from "mobx-react";
 import CKEditor from "./NewCKEditor";
 import replaceDynamicVariable from "../util/replaceDynamicVariable";
 import EditorControl from "./EditorControl";
+import Alert from "../Alert";
 
 @inject("alertPermissionStore")
 class Editor extends React.Component {
@@ -22,7 +23,6 @@ class Editor extends React.Component {
       editMode,
       onChange,
       activeTab,
-      dynamicVariables,
       edited,
       onPublish,
       onReject,
@@ -30,7 +30,9 @@ class Editor extends React.Component {
       onCancel,
       onPreview,
       onClickEdit,
-      alertPermissionStore
+      alertPermissionStore,
+      showAlert,
+      closeAlert
     } = this.props;
     const previewDivStyle = {
       height,
@@ -47,6 +49,17 @@ class Editor extends React.Component {
     const finalRemove = commonRemove + extra;
     return (
       <div className="col-md-12 col-sm-12 col-xs-12 editor-preview-wrapper">
+        {showAlert && (
+          <div className="col-md-10 col-sm-10 col-xs-12 alert-wrapper">
+            <Alert
+              alertClass="danger"
+              highlightedMessage="Hightlight!"
+              detailMessage="You can provide detail message here."
+              showCloseIcon
+              handleClose={closeAlert}
+            />
+          </div>
+        )}
         {editMode[activeTab] ? (
           <div className="col-md-10 col-sm-10 col-xs-12">
             <CKEditor
@@ -80,15 +93,15 @@ class Editor extends React.Component {
                 dangerouslySetInnerHTML={{
                   __html: replaceDynamicVariable(
                     data.changedContent,
-                    dynamicVariables
+                    data.previewValues
                   )
                 }}
               />
             </div>
           </React.Fragment>
         )}
-        {(alertPermissionStore.permissions.role === "Administrator" ||
-          alertPermissionStore.permissions.role === "Editor") && (
+        {(alertPermissionStore.permissions.role === "publish" ||
+          alertPermissionStore.permissions.role === "edit") && (
           <EditorControl
             data={data}
             edited={edited}

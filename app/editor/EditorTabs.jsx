@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { inject, observer } from "mobx-react";
 import Editor from "./Editor";
 import Tab from "./Tab";
-import EditorControl from "./EditorControl";
 import AlertTemplateResourceStore from "../store/AlertTemplateStore";
 
 @inject("alertTemplateStore")
@@ -24,7 +23,9 @@ class EditorTabs extends React.Component {
       onDraft,
       onCancel,
       onPreview,
-      onClickEdit
+      onClickEdit,
+      showAlert,
+      closeAlert
     } = this.props;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     return (
@@ -54,7 +55,6 @@ class EditorTabs extends React.Component {
                 editMode={editMode}
                 onChange={onChange}
                 activeTab={activeTab}
-                dynamicVariables={alertTemplateStore.dynamicVariables}
                 edited={edited}
                 onPublish={onPublish}
                 onReject={onReject}
@@ -62,6 +62,8 @@ class EditorTabs extends React.Component {
                 onCancel={onCancel}
                 onPreview={onPreview}
                 onClickEdit={onClickEdit}
+                showAlert={showAlert}
+                closeAlert={closeAlert}
               />
             );
           })}
@@ -81,7 +83,9 @@ EditorTabs.propTypes = {
   onDraft: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   onPreview: PropTypes.func.isRequired,
-  onClickEdit: PropTypes.func.isRequired
+  onClickEdit: PropTypes.func.isRequired,
+  showAlert: PropTypes.bool.isRequired,
+  closeAlert: PropTypes.func.isRequired
 };
 
 export default EditorTabs;

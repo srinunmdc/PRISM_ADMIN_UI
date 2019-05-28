@@ -20,7 +20,7 @@ class EditorConrol extends React.Component {
     } = this.props;
     return (
       <div className="col-md-12 col-sm-12 col-xs-12 button-panel">
-        {alertPermissionStore.permissions.role === "Administrator" &&
+        {alertPermissionStore.permissions.role === "publish" &&
         data.state &&
         data.state === "DRAFT" &&
         edited[activeTab] === false ? (
