@@ -21,7 +21,8 @@ class ResultTable extends React.Component {
       edited: {},
       editMode: {},
       confirmModalShow: false,
-      showAlert: false
+      showAlert: false,
+      hoverIndex: null
     };
     this.sortFields = this.sortFields.bind(this);
     this.setCollapseId = this.setCollapseId.bind(this);
@@ -225,19 +226,26 @@ class ResultTable extends React.Component {
     AlertTemplateService.deleteTemplate(data);
   };
 
-  sortFields(sortKey, sortOrder) {
-    this.setState({
-      sortKey,
-      sortOrder
-    });
-  }
+  handleMouseEnterOnRow = index => {
+    this.setState({ hoverIndex: index });
+  };
 
-  renderResultRow = (obj, accordianEvenOdd) => {
-    const { collapseID, editMode, edited, showAlert } = this.state;
+  handleMouseLeaveonRow = () => {
+    this.setState({ hoverIndex: null });
+  };
+
+  renderResultRow = (obj, accordianEvenOdd, index) => {
+    const { collapseID, editMode, edited, showAlert, hoverIndex } = this.state;
     const hidden = { opacity: 0.5 };
+    const showIcon = hoverIndex === index ? "" : "invisible";
     return (
       <React.Fragment>
-        <tr className={accordianEvenOdd}>
+        <tr
+          className={`${accordianEvenOdd} prism-table-row`}
+          onMouseEnter={() => this.handleMouseEnterOnRow(index)}
+          onMouseLeave={this.handleMouseLeaveonRow}
+          onClick={() => this.expandAccordian(obj)}
+        >
           <td className="col-xs-2">{obj.alertTypeName}</td>
           <td className="col-xs-3">{obj.description}</td>
           <td className="col-xs-2">{obj.platform}</td>
@@ -261,9 +269,8 @@ class ResultTable extends React.Component {
               className={
                 collapseID === obj.alertTypeId
                   ? "glyphicon glyphicon-menu-up"
-                  : "glyphicon glyphicon-menu-down"
+                  : `glyphicon glyphicon-menu-down ${showIcon}`
               }
-              onClick={() => this.expandAccordian(obj)}
               style={{ padding: "0px 10px" }}
             />
           </td>
@@ -300,6 +307,13 @@ class ResultTable extends React.Component {
     this.setState({ showAlert: false });
   };
 
+  sortFields(sortKey, sortOrder) {
+    this.setState({
+      sortKey,
+      sortOrder
+    });
+  }
+
   render() {
     const columns = [
       { label: "Alert Type", value: "alertTypeName", column: "col-xs-2" },
@@ -325,7 +339,7 @@ class ResultTable extends React.Component {
                       index % 2 === 0
                         ? "not-accordian-even"
                         : "not-accordian-odd";
-                    return this.renderResultRow(obj, accordianEvenOdd);
+                    return this.renderResultRow(obj, accordianEvenOdd, index);
                   }
                 )
               : null}

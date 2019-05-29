@@ -169,3 +169,7 @@ ul, ol {
 .alert-wrapper {
     margin-top: 12px;
 }
+
+.prism-table-row:hover {
+    cursor: pointer;
+}

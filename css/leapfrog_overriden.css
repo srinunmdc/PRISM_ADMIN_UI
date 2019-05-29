@@ -1472,17 +1472,17 @@ body{
 .table>thead>th:first-child {
 	padding: 10px 5px;
 }
-.table-striped>tbody>tr:nth-of-type(odd) {
+.table-striped>tbody>.prism-table-row__observer>tr:nth-of-type(odd) {
     background-color: transparent;
 }
-.table-striped>tbody>tr:nth-of-type(even) {
+.table-striped>tbody>.prism-table-row__observer>tr:nth-of-type(even) {
     background-color: transparent;
 }
-.table-striped>tbody>tr.not-accordian-even {
+.table-striped>tbody>.prism-table-row__observer>tr.not-accordian-even {
     background-color: #f9f9f9;
 }
 
-.table-striped>tbody>tr.not-accordian-odd {
+.table-striped>tbody>.prism-table-row__observer>tr.not-accordian-odd {
     background-color: transparent;
 }
 /*Bootstrap override css end*/
