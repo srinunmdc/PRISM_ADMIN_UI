@@ -116,7 +116,8 @@ class ResultTable extends React.Component {
   };
 
   onDraft = () => {
-    const { alertTemplateStore, edited } = this.props;
+    const { alertTemplateStore } = this.props;
+    const { edited } = this.state;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     let data;
     let error;
@@ -340,7 +341,10 @@ class ResultTable extends React.Component {
     ];
     const { alertTypeStore } = this.props;
     const { sortKey, sortOrder, edited, confirmModalShow } = this.state;
-    const confirmModalContent = Object.keys(edited).join(", ");
+    const confirmModalContent = Object.keys(edited)
+      .filter(key => edited[key])
+      .join(", ");
+
     return (
       <React.Fragment>
         <table className="table table-striped row">
