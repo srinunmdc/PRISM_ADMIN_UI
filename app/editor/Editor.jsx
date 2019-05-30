@@ -8,16 +8,8 @@ import Alert from "../Alert";
 
 @inject("alertPermissionStore")
 class Editor extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      height: "75%"
-    };
-  }
-
   // eslint-disable-next-line react/sort-comp
   render() {
-    const { height } = this.state;
     const {
       data,
       editMode,
@@ -32,13 +24,13 @@ class Editor extends React.Component {
       onClickEdit,
       alertPermissionStore,
       showAlert,
-      closeAlert
+      closeAlert,
+      wrongDynamicVaribales
     } = this.props;
     const previewDivStyle = {
-      height,
       border: "1px solid #d1d1d1",
       overflow: "auto",
-      padding: "15px"
+      height: "278px"
     };
     const commonRemove =
       "PasteText,PasteFromWord,Indent,Outdent,Scayt,Link,Unlink,Anchor,Image,Table,HorizontalRule,SpecialChar,Maximize,Strike,RemoveFormat,NumberedList,BulletedList,Blockquote,Styles,About,Subscript,Superscript";
@@ -47,74 +39,83 @@ class Editor extends React.Component {
       extra = ",Bold,Italic,Underline,Format";
     }
     const finalRemove = commonRemove + extra;
+    const showAlertClass = showAlert ? "" : "invisible";
+    const UnsupportedKeywords = wrongDynamicVaribales.join(",  ");
+    const highlightedMessage =
+      wrongDynamicVaribales.length > 1
+        ? "Unsupported Keywords "
+        : "Unsupported Keyword";
+    const role = alertPermissionStore.permissions.role.toLocaleLowerCase();
     return (
       <div className="col-md-12 col-sm-12 col-xs-12 editor-preview-wrapper">
-        {showAlert && (
-          <div className="col-md-10 col-sm-10 col-xs-12 alert-wrapper">
-            <Alert
-              alertClass="danger"
-              highlightedMessage="Hightlight!"
-              detailMessage="You can provide detail message here."
-              showCloseIcon
-              handleClose={closeAlert}
-            />
-          </div>
-        )}
-        {editMode[activeTab] ? (
-          <div className="col-md-10 col-sm-10 col-xs-12">
-            <CKEditor
-              activeClass="p10"
-              content={data.changedContent}
-              events={{
-                change: onChange
-              }}
-              config={{
-                language: data.locale,
-                height,
-                removePlugins: "resize",
-                toolbarCanCollapse: true,
-                allowedContent: true,
-                disableAutoInline: true,
-                forcePasteAsPlainText: true,
-                removeButtons: finalRemove
-              }}
-            />
-          </div>
-        ) : (
-          <React.Fragment>
-            <div className="col-md-10 col-sm-10 col-xs-12 preview-header">
-              Preview
-            </div>
+        <div
+          className={`col-md-10 col-sm-10 col-xs-12 alert-wrapper ${showAlertClass}`}
+        >
+          <Alert
+            alertClass="danger"
+            highlightedMessage={highlightedMessage}
+            detailMessage={UnsupportedKeywords}
+            showCloseIcon
+            handleClose={closeAlert}
+          />
+        </div>
+        <div className="col-md-10 col-sm-10 col-xs-12 editor-control-wrapper">
+          {editMode[activeTab] ? (
             <div
-              className="col-md-10 col-sm-10 col-xs-12"
-              style={previewDivStyle}
+              className="col-md-12 col-sm-12 col-xs-12"
+              style={{ minHeight: "304.67px" }}
             >
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: replaceDynamicVariable(
-                    data.changedContent,
-                    data.previewValues
-                  )
+              <CKEditor
+                activeClass="p10"
+                content={data.changedContent}
+                events={{
+                  change: onChange
+                }}
+                config={{
+                  language: data.locale,
+                  // height,
+                  removePlugins: "resize",
+                  toolbarCanCollapse: true,
+                  allowedContent: true,
+                  disableAutoInline: true,
+                  forcePasteAsPlainText: true,
+                  removeButtons: finalRemove
                 }}
               />
             </div>
-          </React.Fragment>
-        )}
-        {(alertPermissionStore.permissions.role === "publish" ||
-          alertPermissionStore.permissions.role === "edit") && (
-          <EditorControl
-            data={data}
-            edited={edited}
-            editMode={editMode}
-            activeTab={activeTab}
-            onPublish={onPublish}
-            onReject={onReject}
-            onDraft={onDraft}
-            onCancel={onCancel}
-            onPreview={onPreview}
-            onClickEdit={onClickEdit}
-          />
-        )}
+          ) : (
+            <React.Fragment>
+              <div className="col-md-12 col-sm-12 col-xs-12 preview-header">
+                Preview
+              </div>
+              <div className="col-md-12 col-sm-12 col-xs-12 preview-wrapper">
+                <div
+                  style={previewDivStyle}
+                  dangerouslySetInnerHTML={{
+                    __html: replaceDynamicVariable(
+                      data.changedContent,
+                      data.previewValues
+                    )
+                  }}
+                />
+              </div>
+            </React.Fragment>
+          )}
+          {(role === "publish" || role === "edit") && (
+            <EditorControl
+              data={data}
+              edited={edited}
+              editMode={editMode}
+              activeTab={activeTab}
+              onPublish={onPublish}
+              onReject={onReject}
+              onDraft={onDraft}
+              onCancel={onCancel}
+              onPreview={onPreview}
+              onClickEdit={onClickEdit}
+            />
+          )}
+        </div>
       </div>
     );
   }
