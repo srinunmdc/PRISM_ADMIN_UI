@@ -18,57 +18,61 @@ class EditorConrol extends React.Component {
       onClickEdit,
       alertPermissionStore
     } = this.props;
+    const role = alertPermissionStore.permissions.role.toLocaleLowerCase();
     return (
       <div className="col-md-12 col-sm-12 col-xs-12 button-panel">
-        {alertPermissionStore.permissions.role === "publish" &&
+        {role === "publish" &&
         data.state &&
         data.state === "DRAFT" &&
         edited[activeTab] === false ? (
           <div>
-            <div className="col-xs-2 pull-right">
-              <button
-                type="button"
-                className="btn sm btn-primary"
-                onClick={onPublish}
-              >
-                Publish
-              </button>
-            </div>
-            <div className="col-xs-2 pull-right">
-              <button
-                type="button"
-                className="btn sm btn-primary"
-                onClick={onReject}
-              >
-                Reject
-              </button>
-            </div>
+            <button
+              type="button"
+              className="btn sm btn-primary"
+              onClick={onPublish}
+            >
+              Publish
+            </button>
+          </div>
+        ) : null}
+        {role === "publish" &&
+        data.state &&
+        data.state === "DRAFT" &&
+        edited[activeTab] === false ? (
+          <div>
+            <button
+              type="button"
+              className="btn sm btn-primary"
+              onClick={onReject}
+            >
+              Reject
+            </button>
           </div>
         ) : null}
         {edited[activeTab] ? (
           <div>
-            <div className="col-xs-2 pull-right">
-              <button
-                type="button"
-                className="btn sm btn-primary"
-                onClick={onDraft}
-              >
-                Save as Draft
-              </button>
-            </div>
-            <div className="col-xs-2 pull-right">
-              <button
-                type="button"
-                className="btn sm btn-primary"
-                onClick={onCancel}
-              >
-                Cancel
-              </button>
-            </div>
+            <button
+              type="button"
+              className="btn sm btn-primary"
+              onClick={onDraft}
+            >
+              Save as Draft
+            </button>
+          </div>
+        ) : null}
+        {edited[activeTab] ? (
+          <div>
+            <button
+              type="button"
+              className="btn sm btn-primary"
+              onClick={onCancel}
+            >
+              Cancel
+            </button>
           </div>
         ) : null}
         {editMode[activeTab] ? (
-          <div className="col-xs-2 pull-right">
+          <div>
             <button
               type="button"
               className="btn sm btn-primary"
@@ -78,7 +82,7 @@ class EditorConrol extends React.Component {
             </button>
           </div>
         ) : (
-          <div className="col-xs-2 pull-right">
+          <div>
             <button
               type="button"
               className="btn sm btn-primary"

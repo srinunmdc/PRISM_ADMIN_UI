@@ -25,7 +25,8 @@ class EditorTabs extends React.Component {
       onPreview,
       onClickEdit,
       showAlert,
-      closeAlert
+      closeAlert,
+      wrongDynamicVaribales
     } = this.props;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     return (
@@ -64,6 +65,7 @@ class EditorTabs extends React.Component {
                 onClickEdit={onClickEdit}
                 showAlert={showAlert}
                 closeAlert={closeAlert}
+                wrongDynamicVaribales={wrongDynamicVaribales}
               />
             );
           })}

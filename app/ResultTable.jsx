@@ -22,7 +22,8 @@ class ResultTable extends React.Component {
       editMode: {},
       confirmModalShow: false,
       showAlert: false,
-      hoverIndex: null
+      hoverIndex: null,
+      wrongDynamicVaribales: []
     };
     this.sortFields = this.sortFields.bind(this);
     this.setCollapseId = this.setCollapseId.bind(this);
@@ -41,7 +42,8 @@ class ResultTable extends React.Component {
         confirmModalShow: false,
         edited: {},
         editMode: {},
-        showAlert: false
+        showAlert: false,
+        wrongDynamicVaribales: []
       },
       () => {
         this.resetTemplateStore();
@@ -78,6 +80,10 @@ class ResultTable extends React.Component {
   };
 
   onChange = evt => {
+    // const { wrongDynamicVaribales } = this.state;
+    // if (wrongDynamicVaribales.length > 0) {
+    //   this.setState({ wrongDynamicVaribales: [] });
+    // }
     const { alertTemplateStore } = this.props;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     let data;
@@ -110,10 +116,8 @@ class ResultTable extends React.Component {
   };
 
   onDraft = () => {
-    const { alertTemplateStore } = this.props;
-    const { edited } = this.props;
+    const { alertTemplateStore, edited } = this.props;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
-    console.log("Saving Templates");
     let data;
     let error;
     alertTemplateStore.alertTemplates.forEach(element => {
@@ -124,6 +128,7 @@ class ResultTable extends React.Component {
     const regex = /\${\w*\}/g;
     const dynamicVariables = data.changedContent.match(regex);
     let content = data.changedContent;
+    const dynamicError = [];
     if (dynamicVariables) {
       dynamicVariables.forEach(dynamicVariable => {
         const matchedString = dynamicVariable.substring(
@@ -136,7 +141,10 @@ class ResultTable extends React.Component {
             `<span th:remove="tag" th:text="${dynamicVariable}">${dynamicVariable}</span>`
           );
         } else {
+          const { wrongDynamicVaribales } = this.state;
           error = true;
+          dynamicError.push(dynamicVariable);
+          this.setState({ wrongDynamicVaribales: dynamicError });
         }
       });
     }
@@ -183,7 +191,6 @@ class ResultTable extends React.Component {
         data = element;
       }
     });
-    console.log("Saving Templates");
     AlertTemplateService.publishTemplate(data);
   };
 
@@ -202,7 +209,8 @@ class ResultTable extends React.Component {
     this.setState({
       edited: { ...edited, [activeTab]: false },
       editMode: { ...edit },
-      showAlert: false
+      showAlert: false,
+      wrongDynamicVaribales: []
     });
     data.changedContent = data.templateContent;
   };
@@ -217,7 +225,6 @@ class ResultTable extends React.Component {
         data = element;
       }
     });
-    console.log("Deleting Template");
     const edit = editMode;
     edit[activeTab] = false;
     this.setState({
@@ -235,7 +242,14 @@ class ResultTable extends React.Component {
   };
 
   renderResultRow = (obj, accordianEvenOdd, index) => {
-    const { collapseID, editMode, edited, showAlert, hoverIndex } = this.state;
+    const {
+      collapseID,
+      editMode,
+      edited,
+      showAlert,
+      hoverIndex,
+      wrongDynamicVaribales
+    } = this.state;
     const hidden = { opacity: 0.5 };
     const showIcon = hoverIndex === index ? "" : "invisible";
     return (
@@ -294,6 +308,7 @@ class ResultTable extends React.Component {
                   onClickEdit={this.onClickEdit}
                   showAlert={showAlert}
                   closeAlert={this.closeAlert}
+                  wrongDynamicVaribales={wrongDynamicVaribales}
                 />
               </div>
             </td>
