@@ -25,7 +25,7 @@ class Editor extends React.Component {
       alertPermissionStore,
       showAlert,
       closeAlert,
-      wrongDynamicVaribales
+      wrongDynamicVariables
     } = this.props;
     const previewDivStyle = {
       border: "1px solid #d1d1d1",
@@ -39,10 +39,10 @@ class Editor extends React.Component {
       extra = ",Bold,Italic,Underline,Format";
     }
     const finalRemove = commonRemove + extra;
-    const showAlertClass = showAlert ? "" : "invisible";
-    const UnsupportedKeywords = wrongDynamicVaribales.join(",  ");
+    const showAlertClass = showAlert[activeTab] ? "" : "invisible";
+    const UnsupportedKeywords = wrongDynamicVariables[activeTab].join(",  ");
     const highlightedMessage =
-      wrongDynamicVaribales.length > 1
+      wrongDynamicVariables[activeTab].length > 1
         ? "Unsupported Keywords "
         : "Unsupported Keyword";
     const role = alertPermissionStore.permissions.role.toLocaleLowerCase();
