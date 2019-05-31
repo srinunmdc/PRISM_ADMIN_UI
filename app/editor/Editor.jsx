@@ -30,7 +30,8 @@ class Editor extends React.Component {
     const previewDivStyle = {
       border: "1px solid #d1d1d1",
       overflow: "auto",
-      height: "278px"
+      height: "278px",
+      padding: "20px"
     };
     const commonRemove =
       "PasteText,PasteFromWord,Indent,Outdent,Scayt,Link,Unlink,Anchor,Image,Table,HorizontalRule,SpecialChar,Maximize,Strike,RemoveFormat,NumberedList,BulletedList,Blockquote,Styles,About,Subscript,Superscript";
