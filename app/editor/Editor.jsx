@@ -25,12 +25,13 @@ class Editor extends React.Component {
       alertPermissionStore,
       showAlert,
       closeAlert,
-      wrongDynamicVaribales
+      wrongDynamicVariables
     } = this.props;
     const previewDivStyle = {
       border: "1px solid #d1d1d1",
       overflow: "auto",
-      height: "278px"
+      height: "278px",
+      padding: "20px"
     };
     const commonRemove =
       "PasteText,PasteFromWord,Indent,Outdent,Scayt,Link,Unlink,Anchor,Image,Table,HorizontalRule,SpecialChar,Maximize,Strike,RemoveFormat,NumberedList,BulletedList,Blockquote,Styles,About,Subscript,Superscript";
@@ -39,10 +40,10 @@ class Editor extends React.Component {
       extra = ",Bold,Italic,Underline,Format";
     }
     const finalRemove = commonRemove + extra;
-    const showAlertClass = showAlert ? "" : "invisible";
-    const UnsupportedKeywords = wrongDynamicVaribales.join(",  ");
+    const showAlertClass = showAlert[activeTab] ? "" : "invisible";
+    const UnsupportedKeywords = wrongDynamicVariables[activeTab].join(",  ");
     const highlightedMessage =
-      wrongDynamicVaribales.length > 1
+      wrongDynamicVariables[activeTab].length > 1
         ? "Unsupported Keywords "
         : "Unsupported Keyword";
     const role = alertPermissionStore.permissions.role.toLocaleLowerCase();

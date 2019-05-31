@@ -21,9 +21,19 @@ class ResultTable extends React.Component {
       edited: {},
       editMode: {},
       confirmModalShow: false,
-      showAlert: false,
+      showAlert: {
+        EMAIL_BODY: false,
+        EMAIL_SUBJECT: false,
+        PUSH_BODY: false,
+        SMS_BODY: false
+      }, // have to make showAlert keys dynamic by taking value from templateContentTypes in alertTemplateSore
       hoverIndex: null,
-      wrongDynamicVaribales: []
+      wrongDynamicVariables: {
+        EMAIL_BODY: [],
+        EMAIL_SUBJECT: [],
+        PUSH_BODY: [],
+        SMS_BODY: []
+      } // have to make wrongDynamicVariables keys dynamic by taking value from templateContentTypes in alertTemplateSore
     };
     this.sortFields = this.sortFields.bind(this);
     this.setCollapseId = this.setCollapseId.bind(this);
@@ -42,8 +52,18 @@ class ResultTable extends React.Component {
         confirmModalShow: false,
         edited: {},
         editMode: {},
-        showAlert: false,
-        wrongDynamicVaribales: []
+        showAlert: {
+          EMAIL_BODY: false,
+          EMAIL_SUBJECT: false,
+          PUSH_BODY: false,
+          SMS_BODY: false
+        },
+        wrongDynamicVariables: {
+          EMAIL_BODY: [],
+          EMAIL_SUBJECT: [],
+          PUSH_BODY: [],
+          SMS_BODY: []
+        }
       },
       () => {
         this.resetTemplateStore();
@@ -80,10 +100,6 @@ class ResultTable extends React.Component {
   };
 
   onChange = evt => {
-    // const { wrongDynamicVaribales } = this.state;
-    // if (wrongDynamicVaribales.length > 0) {
-    //   this.setState({ wrongDynamicVaribales: [] });
-    // }
     const { alertTemplateStore } = this.props;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     let data;
@@ -116,7 +132,8 @@ class ResultTable extends React.Component {
   };
 
   onDraft = () => {
-    const { alertTemplateStore, edited } = this.props;
+    const { alertTemplateStore } = this.props;
+    const { edited, wrongDynamicVariables, showAlert } = this.state;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     let data;
     let error;
@@ -125,11 +142,12 @@ class ResultTable extends React.Component {
         data = element;
       }
     });
-    const regex = /\${\w*\}/g;
+    // const regex = /\${\w*\}/g;
+    const regex = /\${[^$]*\}/g;
     const dynamicVariables = data.changedContent.match(regex);
     let content = data.changedContent;
     const dynamicError = [];
-    if (dynamicVariables) {
+    if (data.previewValues && dynamicVariables) {
       dynamicVariables.forEach(dynamicVariable => {
         const matchedString = dynamicVariable.substring(
           2,
@@ -141,10 +159,14 @@ class ResultTable extends React.Component {
             `<span th:remove="tag" th:text="${dynamicVariable}">${dynamicVariable}</span>`
           );
         } else {
-          const { wrongDynamicVaribales } = this.state;
           error = true;
           dynamicError.push(dynamicVariable);
-          this.setState({ wrongDynamicVaribales: dynamicError });
+          this.setState({
+            wrongDynamicVariables: {
+              ...wrongDynamicVariables,
+              [activeTab]: dynamicError
+            }
+          });
         }
       });
     }
@@ -153,10 +175,10 @@ class ResultTable extends React.Component {
       AlertTemplateService.saveTemplate(data);
       this.setState({
         edited: { ...edited, [activeTab]: false },
-        showAlert: false
+        showAlert: { ...showAlert, [activeTab]: false }
       });
     } else {
-      this.setState({ showAlert: true });
+      this.setState({ showAlert: { ...showAlert, [activeTab]: true } });
     }
   };
 
@@ -196,7 +218,7 @@ class ResultTable extends React.Component {
 
   onCancel = () => {
     const { alertTemplateStore } = this.props;
-    const { editMode, edited } = this.state;
+    const { editMode, edited, showAlert } = this.state;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     let data;
     alertTemplateStore.alertTemplates.forEach(element => {
@@ -209,8 +231,13 @@ class ResultTable extends React.Component {
     this.setState({
       edited: { ...edited, [activeTab]: false },
       editMode: { ...edit },
-      showAlert: false,
-      wrongDynamicVaribales: []
+      showAlert: { ...showAlert, [activeTab]: false },
+      wrongDynamicVariables: {
+        EMAIL_BODY: [],
+        EMAIL_SUBJECT: [],
+        PUSH_BODY: [],
+        SMS_BODY: []
+      }
     });
     data.changedContent = data.templateContent;
   };
@@ -248,7 +275,7 @@ class ResultTable extends React.Component {
       edited,
       showAlert,
       hoverIndex,
-      wrongDynamicVaribales
+      wrongDynamicVariables
     } = this.state;
     const hidden = { opacity: 0.5 };
     const showIcon = hoverIndex === index ? "" : "invisible";
@@ -308,7 +335,7 @@ class ResultTable extends React.Component {
                   onClickEdit={this.onClickEdit}
                   showAlert={showAlert}
                   closeAlert={this.closeAlert}
-                  wrongDynamicVaribales={wrongDynamicVaribales}
+                  wrongDynamicVariables={wrongDynamicVariables}
                 />
               </div>
             </td>
@@ -319,7 +346,10 @@ class ResultTable extends React.Component {
   };
 
   closeAlert = () => {
-    this.setState({ showAlert: false });
+    const { alertTemplateStore } = this.props;
+    const { showAlert } = this.state;
+    const activeTab = alertTemplateStore.templateContentTypes.selected;
+    this.setState({ showAlert: { ...showAlert, [activeTab]: false } });
   };
 
   sortFields(sortKey, sortOrder) {
@@ -340,7 +370,10 @@ class ResultTable extends React.Component {
     ];
     const { alertTypeStore } = this.props;
     const { sortKey, sortOrder, edited, confirmModalShow } = this.state;
-    const confirmModalContent = Object.keys(edited).join(", ");
+    const confirmModalContent = Object.keys(edited)
+      .filter(key => edited[key])
+      .join(", ");
+
     return (
       <React.Fragment>
         <table className="table table-striped row">
@@ -374,8 +407,7 @@ class ResultTable extends React.Component {
 ResultTable.propTypes = {
   alertTypeStore: PropTypes.object.isRequired,
   alertTemplateStore: PropTypes.object.isRequired,
-  alertTypeObj: PropTypes.object.isRequired,
-  edited: PropTypes.bool.isRequired
+  alertTypeObj: PropTypes.object.isRequired
 };
 
 export default ResultTable;

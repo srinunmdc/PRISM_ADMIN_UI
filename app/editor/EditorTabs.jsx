@@ -26,7 +26,7 @@ class EditorTabs extends React.Component {
       onClickEdit,
       showAlert,
       closeAlert,
-      wrongDynamicVaribales
+      wrongDynamicVariables
     } = this.props;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     return (
@@ -65,7 +65,7 @@ class EditorTabs extends React.Component {
                 onClickEdit={onClickEdit}
                 showAlert={showAlert}
                 closeAlert={closeAlert}
-                wrongDynamicVaribales={wrongDynamicVaribales}
+                wrongDynamicVariables={wrongDynamicVariables}
               />
             );
           })}
@@ -77,8 +77,8 @@ class EditorTabs extends React.Component {
 
 EditorTabs.propTypes = {
   alertTemplateStore: PropTypes.object.isRequired,
-  editMode: PropTypes.bool.isRequired,
-  edited: PropTypes.bool.isRequired,
+  editMode: PropTypes.object.isRequired,
+  edited: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   onPublish: PropTypes.func.isRequired,
   onReject: PropTypes.func.isRequired,
@@ -86,8 +86,14 @@ EditorTabs.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onPreview: PropTypes.func.isRequired,
   onClickEdit: PropTypes.func.isRequired,
-  showAlert: PropTypes.bool.isRequired,
-  closeAlert: PropTypes.func.isRequired
+  showAlert: PropTypes.object.isRequired,
+  closeAlert: PropTypes.func.isRequired,
+  wrongDynamicVariables: PropTypes.shape({
+    EMAIL_BODY: PropTypes.array.isRequired,
+    EMAIL_SUBJECT: PropTypes.array.isRequired,
+    PUSH_BODY: PropTypes.array.isRequired,
+    SMS_BODY: PropTypes.array.isRequired
+  }).isRequired
 };
 
 export default EditorTabs;
