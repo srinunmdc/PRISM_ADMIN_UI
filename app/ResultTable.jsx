@@ -147,13 +147,12 @@ class ResultTable extends React.Component {
     const dynamicVariables = data.changedContent.match(regex);
     let content = data.changedContent;
     const dynamicError = [];
-    if (dynamicVariables) {
+    if (data.previewValues && dynamicVariables) {
       dynamicVariables.forEach(dynamicVariable => {
         const matchedString = dynamicVariable.substring(
           2,
           dynamicVariable.length - 1
         );
-
         if (data.previewValues[matchedString]) {
           content = content.replace(
             dynamicVariable,
