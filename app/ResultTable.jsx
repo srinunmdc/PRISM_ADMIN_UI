@@ -82,17 +82,16 @@ class ResultTable extends React.Component {
 
   expandAccordian = alertTypeResource => {
     const { collapseID, edited } = this.state;
-
     if (Object.values(edited).includes(true)) {
       this.setState({ confirmModalShow: true });
     } else {
       this.resetTemplateStore();
-
       if (collapseID === alertTypeResource.alertTypeId) {
         this.setCollapseId("");
       } else {
         AlertTemplateService.loadAlertTemplatesResources(alertTypeResource);
         this.setCollapseId(alertTypeResource.alertTypeId);
+        this.setState({ editMode: {}, edited: {} });
       }
     }
 
@@ -172,6 +171,7 @@ class ResultTable extends React.Component {
     }
     if (!error) {
       data.templateContent = content;
+      data.state = "DRAFT";
       AlertTemplateService.saveTemplate(data);
       this.setState({
         edited: { ...edited, [activeTab]: false },
