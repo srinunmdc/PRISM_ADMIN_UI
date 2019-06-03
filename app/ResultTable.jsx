@@ -226,6 +226,7 @@ class ResultTable extends React.Component {
         data = element;
       }
     });
+    data.state = undefined;
     const edit = editMode;
     edit[activeTab] = false;
     this.setState({
