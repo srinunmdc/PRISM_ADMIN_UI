@@ -171,6 +171,7 @@ class ResultTable extends React.Component {
     }
     if (!error) {
       data.templateContent = content;
+      data.state = "DRAFT";
       AlertTemplateService.saveTemplate(data);
       this.setState({
         edited: { ...edited, [activeTab]: false },
