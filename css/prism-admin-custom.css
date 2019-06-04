@@ -1,5 +1,6 @@
 .tabs {
     display: flex;
+    max-width: 90vw;
 }
 .tab-list {
     width: 20%;
