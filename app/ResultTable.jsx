@@ -241,12 +241,13 @@ class ResultTable extends React.Component {
         data = element;
       }
     });
-    data.state = undefined;
+    data.state = "PUBLISHED";
     this.setState({
       edited: { ...edited, [activeTab]: false },
       editMode: { ...editMode, [activeTab]: false }
     });
     AlertTemplateService.publishTemplate(data);
+    data.state = undefined;
   };
 
   onCancel = () => {
