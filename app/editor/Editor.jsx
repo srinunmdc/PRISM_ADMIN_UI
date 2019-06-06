@@ -86,10 +86,10 @@ class Editor extends React.Component {
             </div>
           ) : (
             <React.Fragment>
-              <div className="col-md-12 col-sm-12 col-xs-12 preview-header">
+              <div className="col-xs-12 preview-header">
                 Preview
               </div>
-              <div className="col-md-12 col-sm-12 col-xs-12 preview-wrapper">
+              <div className="col-xs-12 preview-wrapper">
                 <div
                   style={previewDivStyle}
                   dangerouslySetInnerHTML={{

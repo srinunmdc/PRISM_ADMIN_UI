@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 
 import Button from "./Button";
 import Backdrop from "./backdrop";
+import { fail } from "assert";
 
-const ConfirmModal = ({ show, close, content, confirmHandler }) => {
+const ConfirmModal = ({ show, close, content, confirmHandler, successText, failText}) => {
   const modalClassesArr = ["modal", "fade"];
 
   let backdrop = null;
@@ -42,22 +43,20 @@ const ConfirmModal = ({ show, close, content, confirmHandler }) => {
             </div>
 
             <div className="modal-body">
-              <div className="di-callout xs-void">
-                {`You might lose your changes in ${content}. Continue editing?`}
-              </div>
+              <div className="di-callout xs-void">{content}</div>
             </div>
 
             <div className="modal-footer">
               <Button
                 btnType="button"
-                btnName="Yes"
+                btnName={successText}
                 btnClass="btn btn-primary"
                 clickHandler={confirmHandler}
               />
 
               <Button
                 btnType="button"
-                btnName="Discard"
+                btnName={failText}
                 btnClass="btn btn-secondary"
                 clickHandler={close}
               />
