@@ -21,6 +21,7 @@ class ResultTable extends React.Component {
       edited: {},
       editMode: {},
       confirmModalShow: false,
+      confirmRejectModalShow: false,
       showAlert: {
         EMAIL_BODY: false,
         EMAIL_SUBJECT: false,
@@ -74,6 +75,32 @@ class ResultTable extends React.Component {
 
   continueEditing = () => {
     this.setState({ confirmModalShow: false });
+  };
+
+  declineRejectEditing = () => {
+    this.setState({
+      confirmRejectModalShow: false
+    });
+  };
+
+  continueRejectEditing = () => {
+    this.setState({ confirmRejectModalShow: false });
+    const { alertTemplateStore } = this.props;
+    const { editMode } = this.state;
+    const activeTab = alertTemplateStore.templateContentTypes.selected;
+    let data;
+    alertTemplateStore.alertTemplates.forEach(element => {
+      if (element.templateContentType === activeTab) {
+        data = element;
+      }
+    });
+    const edit = editMode;
+    edit[activeTab] = false;
+    data.state = undefined;
+    this.setState({
+      editMode: { ...edit }
+    });
+    AlertTemplateService.deleteTemplate(data);
   };
 
   resetTemplateStore = () => {
@@ -206,12 +233,18 @@ class ResultTable extends React.Component {
 
   onPublish = () => {
     const { alertTemplateStore } = this.props;
+    const { edited, editMode } = this.state;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
     let data;
     alertTemplateStore.alertTemplates.forEach(element => {
       if (element.templateContentType === activeTab) {
         data = element;
       }
+    });
+    data.state = undefined;
+    this.setState({
+      edited: { ...edited, [activeTab]: false },
+      editMode: { ...editMode, [activeTab]: false }
     });
     AlertTemplateService.publishTemplate(data);
   };
@@ -244,21 +277,9 @@ class ResultTable extends React.Component {
   };
 
   onReject = () => {
-    const { alertTemplateStore } = this.props;
-    const { editMode } = this.state;
-    const activeTab = alertTemplateStore.templateContentTypes.selected;
-    let data;
-    alertTemplateStore.alertTemplates.forEach(element => {
-      if (element.templateContentType === activeTab) {
-        data = element;
-      }
-    });
-    const edit = editMode;
-    edit[activeTab] = false;
     this.setState({
-      editMode: { ...edit }
+      confirmRejectModalShow: true
     });
-    AlertTemplateService.deleteTemplate(data);
   };
 
   handleMouseEnterOnRow = index => {
@@ -276,7 +297,8 @@ class ResultTable extends React.Component {
       edited,
       showAlert,
       hoverIndex,
-      wrongDynamicVariables
+      wrongDynamicVariables,
+      rejectAlert
     } = this.state;
     const hidden = { opacity: 0.5 };
     const showIcon = hoverIndex === index ? "" : "invisible";
@@ -330,6 +352,7 @@ class ResultTable extends React.Component {
                   onChange={this.onChange}
                   onPublish={this.onPublish}
                   onReject={this.onReject}
+                  rejectAlert={rejectAlert}
                   onDraft={this.onDraft}
                   onCancel={this.onCancel}
                   onPreview={this.onPreview}
@@ -350,7 +373,10 @@ class ResultTable extends React.Component {
     const { alertTemplateStore } = this.props;
     const { showAlert } = this.state;
     const activeTab = alertTemplateStore.templateContentTypes.selected;
-    this.setState({ showAlert: { ...showAlert, [activeTab]: false } });
+    this.setState({
+      showAlert: { ...showAlert, [activeTab]: false },
+      rejectAlert: false
+    });
   };
 
   sortFields(sortKey, sortOrder) {
@@ -369,8 +395,15 @@ class ResultTable extends React.Component {
       { label: "Delivery Type", value: "", column: "col-xs-2" },
       { label: "", value: "", column: "col-xs-1" }
     ];
-    const { alertTypeStore } = this.props;
-    const { sortKey, sortOrder, edited, confirmModalShow } = this.state;
+    const { alertTypeStore, alertTemplateStore } = this.props;
+    const activeTab = alertTemplateStore.templateContentTypes.selected;
+    const {
+      sortKey,
+      sortOrder,
+      edited,
+      confirmModalShow,
+      confirmRejectModalShow
+    } = this.state;
     const confirmModalContent = Object.keys(edited)
       .filter(key => edited[key])
       .join(", ");
@@ -397,8 +430,18 @@ class ResultTable extends React.Component {
         <ConfirmModal
           show={confirmModalShow}
           close={this.declineEditing}
-          content={confirmModalContent}
+          content={`You might lose your changes in ${confirmModalContent}. Continue editing?`}
           confirmHandler={this.continueEditing}
+          successText="Yes"
+          failText="Discard"
+        />
+        <ConfirmModal
+          show={confirmRejectModalShow}
+          close={this.declineRejectEditing}
+          content={`You want to reject changes in ${activeTab}`}
+          confirmHandler={this.continueRejectEditing}
+          successText="Yes"
+          failText="No"
         />
       </React.Fragment>
     );
