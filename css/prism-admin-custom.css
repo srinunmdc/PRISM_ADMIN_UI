@@ -7,6 +7,12 @@
     background-color: #ccc;
 }
 
+/* loader overflow css overrde for IE */
+._loading_overlay_overlay{
+    text-align: justify;
+    align-items: center;
+}
+/* end */
 .tab-list-item {
     list-style: none;
     padding: 7px 15px;
