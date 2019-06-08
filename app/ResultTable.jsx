@@ -342,7 +342,7 @@ class ResultTable extends React.Component {
         </tr>
         {collapseID === obj.alertTypeId && (
           <tr>
-            <td colSpan="6" style={{ padding: 0 }}>
+            <td colSpan="6" style={{ padding: 0, maxWidth: "200px" }}>
               <div
                 id={`accordion_${obj.alertTypeId}`}
                 className="accordian-border"
