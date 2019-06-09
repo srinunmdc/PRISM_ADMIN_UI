@@ -50,18 +50,20 @@ class Editor extends React.Component {
     return (
       <div className="col-md-12 col-sm-12 col-xs-12 editor-preview-wrapper">
         <div
-          className="col-md-10 col-sm-10 col-xs-12 alert-wrapper"
+          className="col-md-12 col-sm-12 col-xs-12 alert-wrapper"
           style={showAlertClass}
         >
-          <Alert
-            alertClass="danger"
-            highlightedMessage={highlightedMessage}
-            detailMessage={UnsupportedKeywords}
-            showCloseIcon
-            handleClose={closeAlert}
-          />
+          <div className="col-md-12 col-sm-12 col-xs-12">
+            <Alert
+              alertClass="danger"
+              highlightedMessage={highlightedMessage}
+              detailMessage={UnsupportedKeywords}
+              showCloseIcon
+              handleClose={closeAlert}
+            />
+          </div>
         </div>
-        <div className="col-md-10 col-sm-10 col-xs-12 editor-control-wrapper">
+        <div className="col-md-12 col-sm-12 col-xs-12 editor-control-wrapper">
           {editMode[activeTab] ? (
             <div
               className="col-md-12 col-sm-12 col-xs-12"
@@ -87,9 +89,7 @@ class Editor extends React.Component {
             </div>
           ) : (
             <React.Fragment>
-              <div className="col-xs-12 preview-header">
-                Preview
-              </div>
+              <div className="col-xs-12 preview-header">Preview</div>
               <div className="col-xs-12 preview-wrapper">
                 <div
                   style={previewDivStyle}

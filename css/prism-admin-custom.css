@@ -1,6 +1,5 @@
 .tabs {
     display: flex;
-    max-width: 90vw;
 }
 .tab-list {
     width: 20%;
@@ -29,6 +28,7 @@
 
 .tab-content {
     width: 80%;
+    padding: 30px 25px;
 }
 
 .tab{
@@ -53,8 +53,6 @@ ul, ol {
     display: flex;
     align-items: center;
     flex-direction: column;
-    padding-top: 20px;
-    padding-bottom: 50px;
 }
 
 .preview-header {
