@@ -24,7 +24,7 @@ class EditorConrol extends React.Component {
         {role === "publish" &&
         data.state &&
         data.state === "DRAFT" &&
-        edited[activeTab] === false ? (
+        !edited[activeTab] ? (
           <div>
             <button
               type="button"
@@ -35,10 +35,7 @@ class EditorConrol extends React.Component {
             </button>
           </div>
         ) : null}
-        {role === "publish" &&
-        data.state &&
-        data.state === "DRAFT" &&
-        edited[activeTab] === false ? (
+        {role === "publish" && data.state && data.state === "DRAFT" ? (
           <div>
             <button
               type="button"
