@@ -35,7 +35,10 @@ class EditorConrol extends React.Component {
             </button>
           </div>
         ) : null}
-        {role === "publish" && data.state && data.state === "DRAFT" ? (
+        {role === "publish" &&
+        data.state &&
+        data.state === "DRAFT" &&
+        (edited[activeTab] === undefined || edited[activeTab] === false) ? (
           <div>
             <button
               type="button"

@@ -22,19 +22,9 @@ class ResultTable extends React.Component {
       editMode: {},
       confirmModalShow: false,
       confirmRejectModalShow: false,
-      showAlert: {
-        EMAIL_BODY: false,
-        EMAIL_SUBJECT: false,
-        PUSH_BODY: false,
-        SMS_BODY: false
-      }, // have to make showAlert keys dynamic by taking value from templateContentTypes in alertTemplateSore
+      showAlert: {}, // have to make showAlert keys dynamic by taking value from templateContentTypes in alertTemplateSore
       hoverIndex: null,
-      wrongDynamicVariables: {
-        EMAIL_BODY: [],
-        EMAIL_SUBJECT: [],
-        PUSH_BODY: [],
-        SMS_BODY: []
-      } // have to make wrongDynamicVariables keys dynamic by taking value from templateContentTypes in alertTemplateSore
+      wrongDynamicVariables: {} // have to make wrongDynamicVariables keys dynamic by taking value from templateContentTypes in alertTemplateSore
     };
     this.sortFields = this.sortFields.bind(this);
     this.setCollapseId = this.setCollapseId.bind(this);
@@ -53,18 +43,8 @@ class ResultTable extends React.Component {
         confirmModalShow: false,
         edited: {},
         editMode: {},
-        showAlert: {
-          EMAIL_BODY: false,
-          EMAIL_SUBJECT: false,
-          PUSH_BODY: false,
-          SMS_BODY: false
-        },
-        wrongDynamicVariables: {
-          EMAIL_BODY: [],
-          EMAIL_SUBJECT: [],
-          PUSH_BODY: [],
-          SMS_BODY: []
-        }
+        showAlert: {},
+        wrongDynamicVariables: {}
       },
       () => {
         this.resetTemplateStore();
@@ -267,12 +247,7 @@ class ResultTable extends React.Component {
       edited: { ...edited, [activeTab]: false },
       editMode: { ...edit },
       showAlert: { ...showAlert, [activeTab]: false },
-      wrongDynamicVariables: {
-        EMAIL_BODY: [],
-        EMAIL_SUBJECT: [],
-        PUSH_BODY: [],
-        SMS_BODY: []
-      }
+      wrongDynamicVariables: {}
     });
     data.changedContent = data.templateContent;
   };
