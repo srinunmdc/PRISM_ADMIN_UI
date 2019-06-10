@@ -41,8 +41,11 @@ class Editor extends React.Component {
     }
     const finalRemove = commonRemove + extra;
     const showAlertClass = showAlert[activeTab] ? {} : { display: "none" };
-    const UnsupportedKeywords = wrongDynamicVariables[activeTab].join(",  ");
+    const UnsupportedKeywords =
+      wrongDynamicVariables[activeTab] &&
+      wrongDynamicVariables[activeTab].join(",  ");
     const highlightedMessage =
+      wrongDynamicVariables[activeTab] &&
       wrongDynamicVariables[activeTab].length > 1
         ? "Unsupported Keywords "
         : "Unsupported Keyword";
